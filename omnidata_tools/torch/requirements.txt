@@ -1,0 +1,15 @@
+numpy==1.19.5
+pillow==8.3.2
+pyyaml==5.3.1
+torch==1.9.0
+torchvision==0.10.0
+pytorch_lightning==1.1.8
+einops==0.3.2
+matplotlib==3.3.4
+joblib==1.1.0
+pandas==1.1.5
+h5py==3.1.0
+scipy==1.5.4
+seaborn==0.11.2
+kornia==0.5.11
+timm==0.4.12

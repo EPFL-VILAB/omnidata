@@ -6,18 +6,17 @@
     "Using the Annotator [Docker Demo]": "/annotator_usage.html",
     "Documentation": "/annotator_documentation.html"
   },
-  "Moving + Using the Data": {
-    "Download Tool ": "download_tool.html",
-    "Uploader Tool ": "upload_tool.html",
-    "Dataloaders ": "dataloaders.html"
-  },
   "Starter Dataset": {
     "Overview + Statistics": "starter_dataset.html",
     "Download": "starter_dataset_download.html",
     "Generation Parameters": "starter_dataset_params.html"
   },
-  "Pretrained Models (+code for MiDaS training)": {
+  "Moving & Using the Data": {
+    "<strong>omnitools</strong> CLI": "omnitools.html",
+    "Dataloaders ": "dataloaders.html"
+  },
+  "PyTorch Models + Training": {
     "Pretrained Models + Demo": "pretrained.html",
-    "MiDaS Implementation": "midas.html"
+    "Training Code (+ Midas)": "training.html"
   }
 }

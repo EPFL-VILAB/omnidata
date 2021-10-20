@@ -1,13 +1,13 @@
 ---
 
-title: Pretrained Models 
+title: Pretrained Models + Demo
 
 
 keywords: fastai
 sidebar: home_sidebar
 
-
-
+summary: "This page is for downloading and using the pretrained models in PyTorch. You can also try a <a href=//omnidata.vision/demo>demo in your browser</a> or <a href=//docs.omnidata.vision/training.html>train your own models</a>."
+description: "This page is for downloading and using the pretrained models in PyTorch. You can also try a <a href=//omnidata.vision/demo>demo in your browser</a> or <a href=//docs.omnidata.vision/training.html>train your own models</a>."
 nb_path: "nbs/05_pretrained.ipynb"
 ---
 <!--
@@ -31,13 +31,89 @@ nb_path: "nbs/05_pretrained.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Demo">Demo<a class="anchor-link" href="#Demo"> </a></h2>
+<h2 id="Installation">Installation<a class="anchor-link" href="#Installation"> </a></h2><div class="highlight"><pre><span></span>git clone https://github.com/Ainaz99/omnidata-tools
+<span class="nb">cd</span> omnidata-tools/torch
+conda create -n testenv -y <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.8
+<span class="nb">source</span> activate testenv
+pip install -r requirements.txt
+</pre></div>
+<p>You can see the complete list of required packages in <a href="https://github.com/Ainaz99/omnidata-tools/blob/main/requirements.txt">omnidata-tools/torch/requirements.txt</a>. We recommend using virtualenv for the installation.</p>
+<h2 id="Pretrained-Models">Pretrained Models<a class="anchor-link" href="#Pretrained-Models"> </a></h2><p>We are providing our pretrained models which (as of publishing time) have state-of-the-art performance in depth and surface normal estimation.</p>
+<h4 id="Network-Architecture">Network Architecture<a class="anchor-link" href="#Network-Architecture"> </a></h4><p>The surface normal network is based on the <a href="https://arxiv.org/pdf/1505.04597.pdf">UNet</a> architecture (6 down/6 up). It is trained with both angular and L1 loss and input resolutions between 256 and 512.</p>
+<p>The depth networks have DPT-based architectures (similar to <a href="https://github.com/isl-org/MiDaS">MiDaS v3.0</a>) and are trained with scale- and shift-invariant loss and scale-invariant gradient matching term introduced in <a href="https://arxiv.org/pdf/1907.01341v3.pdf">MiDaS</a>, and also <a href="https://openaccess.thecvf.com/content_ICCV_2019/papers/Yin_Enforcing_Geometric_Constraints_of_Virtual_Normal_for_Depth_Prediction_ICCV_2019_paper.pdf">virtual normal loss</a>. You can see a public implementation of the MiDaS loss <a href="#midas-implementation">here</a>. We provide 2 pretrained depth models for both DPT-hybrid and DPT-large architectures with input resolution 384.</p>
+<h4 id="Download-pretrained-models">Download pretrained models<a class="anchor-link" href="#Download-pretrained-models"> </a></h4><div class="highlight"><pre><span></span>sh ./tools/download_depth_models.sh
+sh ./tools/download_surface_normal_models.sh
+</pre></div>
+<p>These will download the pretrained models for <code>depth</code> and <code>normals</code> to a folder called <code>./pretrained_models</code>.</p>
+<h2 id="Run-our-models-on-your-own-image">Run our models on your own image<a class="anchor-link" href="#Run-our-models-on-your-own-image"> </a></h2><p>After downloading the <a href="#pretrained-models">pretrained models</a>, you can run them on your own image with the following command:</p>
+<div class="highlight"><pre><span></span>python demo.py --task <span class="nv">$TASK</span> --img_path <span class="nv">$PATH_TO_IMAGE_OR_FOLDER</span> --output_path <span class="nv">$PATH_TO_SAVE_OUTPUT</span>
+</pre></div>
+<p>The <code>--task</code> flag should be either <code>normal</code> or <code>depth</code>. To run the script for a <code>normal</code> target on an <a href="./assets/demo/test1.png">example image</a>:</p>
+<div class="highlight"><pre><span></span>python demo.py --task normal --img_path assets/demo/test1.png --output_path assets/
+</pre></div>
+
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Included-models">Included models<a class="anchor-link" href="#Included-models"> </a></h2>
+<table>
+<thead><tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test1.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test2.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test3.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test4.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test5.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test6.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test7.png" style='max-width: 100%;'/></td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test1_normal.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test2_normal.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test3_normal.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test4_normal.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test5_normal.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test6_normal.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test7_normal.png" style='max-width: 100%;'/></td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test1_depth.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test2_depth.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test3_depth.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test4_depth.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test5_depth.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test6_depth.png" style='max-width: 100%;'/></td>
+<td style="text-align:center"><img src="/omnidata-tools/images/torch/demo/test7_depth.png" style='max-width: 100%;'/></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Citation">Citation<a class="anchor-link" href="#Citation"> </a></h2><p>If you find the code or models useful, please cite our paper:</p>
+
+<pre><code>@inproceedings{eftekhar2021omnidata,
+  title={Omnidata: A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets From 3D Scans},
+  author={Eftekhar, Ainaz and Sax, Alexander and Malik, Jitendra and Zamir, Amir},
+  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages={10786--10796},
+  year={2021}
+}</code></pre>
+
 </div>
 </div>
 </div>

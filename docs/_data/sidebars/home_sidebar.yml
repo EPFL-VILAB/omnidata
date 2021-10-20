@@ -22,18 +22,6 @@ entries:
     title: Annotator
   - folderitems:
     - output: web,pdf
-      title: 'Download Tool '
-      url: download_tool.html
-    - output: web,pdf
-      title: 'Uploader Tool '
-      url: upload_tool.html
-    - output: web,pdf
-      title: 'Dataloaders '
-      url: dataloaders.html
-    output: web
-    title: Moving + Using the Data
-  - folderitems:
-    - output: web,pdf
       title: Overview + Statistics
       url: starter_dataset.html
     - output: web,pdf
@@ -46,12 +34,21 @@ entries:
     title: Starter Dataset
   - folderitems:
     - output: web,pdf
+      title: <strong>omnitools</strong> CLI
+      url: omnitools.html
+    - output: web,pdf
+      title: 'Dataloaders '
+      url: dataloaders.html
+    output: web
+    title: Moving & Using the Data
+  - folderitems:
+    - output: web,pdf
       title: Pretrained Models + Demo
       url: pretrained.html
     - output: web,pdf
-      title: MiDaS Implementation
-      url: midas.html
+      title: Training Code (+ Midas)
+      url: training.html
     output: web
-    title: Pretrained Models (+code for MiDaS training)
+    title: PyTorch Models + Training
   output: web
   title: Sidebar

@@ -14,7 +14,7 @@ entries:
   - folderitems:
     - output: web,pdf
       title: Using the Annotator [Docker Demo]
-      url: /annotator_demo.html
+      url: /annotator_usage.html
     - output: web,pdf
       title: Documentation
       url: /annotator_documentation.html

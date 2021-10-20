@@ -3,7 +3,7 @@
     "Overview": "/"
   },
   "Annotator": {
-    "Using the Annotator [Docker Demo]": "/annotator_demo.html",
+    "Using the Annotator [Docker Demo]": "/annotator_usage.html",
     "Documentation": "/annotator_documentation.html",
     "Source": "/annotator_repo.html"
   },

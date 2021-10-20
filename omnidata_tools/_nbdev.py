@@ -6,7 +6,7 @@ index = {}
 
 modules = []
 
-doc_url = "https://alexsax.github.io/omnidata_tools/"
+doc_url = "https://alexsax.github.ioomnidata-tools"
 
 git_url = "https://github.com/alexsax/omnidata_tools/tree/main/"
 

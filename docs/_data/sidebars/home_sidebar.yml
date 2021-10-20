@@ -9,10 +9,52 @@ entries:
     - output: web,pdf
       title: Overview
       url: /
-    - output: web,pdf
-      title: Starter Dataset
-      url: starter_dataset.html
     output: web
-    title: omnidata_tools
+    title: Get Started
+  - folderitems:
+    - output: web,pdf
+      title: Using the Annotator [Docker Demo]
+      url: /annotator_demo.html
+    - output: web,pdf
+      title: Documentation
+      url: /annotator_documentation.html
+    - output: web,pdf
+      title: Source
+      url: /annotator_repo.html
+    output: web
+    title: Annotator
+  - folderitems:
+    - output: web,pdf
+      title: 'Download Tool '
+      url: download_tool.html
+    - output: web,pdf
+      title: 'Uploader Tool '
+      url: upload_tool.html
+    - output: web,pdf
+      title: 'Dataloaders '
+      url: dataloaders.html
+    output: web
+    title: Moving + Using the Data
+  - folderitems:
+    - output: web,pdf
+      title: Download
+      url: starter_dataset.html
+    - output: web,pdf
+      title: Generation Parameters
+      url: starter_dataset_params.html
+    - output: web,pdf
+      title: Resulting Distributions + Statistics
+      url: starter_dataset_stats.html
+    output: web
+    title: Starter Dataset
+  - folderitems:
+    - output: web,pdf
+      title: Pretrained Models
+      url: pretrained.html
+    - output: web,pdf
+      title: MiDaS Implementation
+      url: midas.html
+    output: web
+    title: Pretrained Models (+code for MiDaS training)
   output: web
   title: Sidebar

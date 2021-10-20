@@ -1,6 +1,6 @@
 repository: alexsax/omnidata-tools
 output: web
-topnav_title: omnidata-tools
+topnav_title: "pip install 'omnidata-tools'"
 site_title: omnidata-tools
 company_name: Alexander Sax
 description: "Tooling for Omnidata: A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets from 3D Scans"

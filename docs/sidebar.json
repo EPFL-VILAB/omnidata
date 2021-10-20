@@ -1,6 +1,24 @@
 {
-  "omnidata_tools": {
-    "Overview": "/",
-    "Starter Dataset": "starter_dataset.html"
+  "Get Started": {
+    "Overview": "/"
+  },
+  "Annotator": {
+    "Using the Annotator [Docker Demo]": "/annotator_demo.html",
+    "Documentation": "/annotator_documentation.html",
+    "Source": "/annotator_repo.html"
+  },
+  "Moving + Using the Data": {
+    "Download Tool ": "download_tool.html",
+    "Uploader Tool ": "upload_tool.html",
+    "Dataloaders ": "dataloaders.html"
+  },
+  "Starter Dataset": {
+    "Download": "starter_dataset.html",
+    "Generation Parameters": "starter_dataset_params.html",
+    "Resulting Distributions + Statistics": "starter_dataset_stats.html"
+  },
+  "Pretrained Models (+code for MiDaS training)": {
+    "Pretrained Models": "pretrained.html",
+    "MiDaS Implementation": "midas.html"
   }
 }

@@ -4,8 +4,7 @@
   },
   "Annotator": {
     "Using the Annotator [Docker Demo]": "/annotator_usage.html",
-    "Documentation": "/annotator_documentation.html",
-    "Source": "/annotator_repo.html"
+    "Documentation": "/annotator_documentation.html"
   },
   "Moving + Using the Data": {
     "Download Tool ": "download_tool.html",
@@ -18,7 +17,7 @@
     "Generation Parameters": "starter_dataset_params.html"
   },
   "Pretrained Models (+code for MiDaS training)": {
-    "Pretrained Models": "pretrained.html",
+    "Pretrained Models + Demo": "pretrained.html",
     "MiDaS Implementation": "midas.html"
   }
 }

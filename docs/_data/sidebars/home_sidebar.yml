@@ -18,9 +18,6 @@ entries:
     - output: web,pdf
       title: Documentation
       url: /annotator_documentation.html
-    - output: web,pdf
-      title: Source
-      url: /annotator_repo.html
     output: web
     title: Annotator
   - folderitems:
@@ -49,7 +46,7 @@ entries:
     title: Starter Dataset
   - folderitems:
     - output: web,pdf
-      title: Pretrained Models
+      title: Pretrained Models + Demo
       url: pretrained.html
     - output: web,pdf
       title: MiDaS Implementation

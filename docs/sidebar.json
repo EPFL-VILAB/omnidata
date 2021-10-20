@@ -13,9 +13,9 @@
     "Dataloaders ": "dataloaders.html"
   },
   "Starter Dataset": {
-    "Download": "starter_dataset.html",
-    "Generation Parameters": "starter_dataset_params.html",
-    "Resulting Distributions + Statistics": "starter_dataset_stats.html"
+    "Overview + Statistics": "starter_dataset.html",
+    "Download": "starter_dataset_download.html",
+    "Generation Parameters": "starter_dataset_params.html"
   },
   "Pretrained Models (+code for MiDaS training)": {
     "Pretrained Models": "pretrained.html",

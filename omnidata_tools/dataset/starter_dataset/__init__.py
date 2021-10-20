@@ -1,7 +1,12 @@
 
 import functools, requests
 import multiprocessing as mp
-from metadata import RemoteBucketStorageMetadata, ZippedModel
+from ..metadata import RemoteBucketStorageMetadata, ZippedModel
+
+
+# SPLITS | Which spaces to download
+
+from .component_datasets import taskonomy, hypersim, replica, gso_in_replica, blendedmvs
 
 # --- Specifics ---
 class OmnidataMetadata(RemoteBucketStorageMetadata):
@@ -47,13 +52,6 @@ STARTER_DATASET_REMOTE_SERVER_METADATAS = [
   TaskonomyMetadata( base_url='https://datasets.epfl.ch/taskonomy/'),
 ]
 
-# SPLITS | Which spaces to download
-
-import component_datasets.taskonomy      as taskonomy
-import component_datasets.hypersim       as hypersim
-import component_datasets.replica        as replica
-import component_datasets.gso_in_replica as gso_in_replica
-import component_datasets.blendedmvs     as blendedmvs
 
 STARTER_DATA_COMPONENTS = {
   'taskonomy': taskonomy,
@@ -68,6 +66,18 @@ STARTER_DATA_COMPONENTS = {
 
 STARTER_DATA_COMPONENT_TO_SPLIT = {k: getattr(v, 'split_to_spaces', None) for k, v in STARTER_DATA_COMPONENTS.items()}
 STARTER_DATA_COMPONENT_TO_SUBSET = {k: getattr(v, 'subset_to_spaces', None) for k, v in STARTER_DATA_COMPONENTS.items()}
+
+
+STARTER_DATA_LICENSES = {
+  'replica':        'https://raw.githubusercontent.com/facebookresearch/Replica-Dataset/main/LICENSE',
+  'hypersim':       'https://raw.githubusercontent.com/apple/ml-hypersim/master/LICENSE.txt',
+  'gso_in_replica': 'https://creativecommons.org/licenses/by/4.0/legalcode',
+  'clevr_simple':   'https://creativecommons.org/licenses/by/4.0/legalcode',
+  'clevr_complex':  'https://creativecommons.org/licenses/by/4.0/legalcode',
+  'blendedmvs':     'https://creativecommons.org/licenses/by/4.0/legalcode',
+  'taskonomy':      'https://creativecommons.org/licenses/by/4.0/legalcode',
+  'hm3d':           'https://matterport.com/matterport-end-user-license-agreement-academic-use-model-data'
+}
 
 if __name__ == '__main__':
   print(STARTER_DATA_COMPONENT_TO_SUBSET['replica'])

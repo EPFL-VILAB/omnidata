@@ -1,19 +1,23 @@
 import aria2p
 import multiprocess as mp
+from functools import partial
 import atexit, os, signal, shutil, tempfile, time
 from   subprocess import call, run, Popen
 import tarfile 
-from   typing import Optional
+from   typing import Dict, Optional, Iterable
+from   argparse import SUPPRESS
 
-from metadata import ZippedModel, bcolors, notice, header
-from starter_dataset import STARTER_DATASET_REMOTE_SERVER_METADATAS, STARTER_DATA_COMPONENT_TO_SPLIT, STARTER_DATA_COMPONENT_TO_SUBSET, STARTER_DATA_COMPONENTS
+from .metadata import RemoteStorageMetadata, ZippedModel, bcolors, notice, header, license
+from .starter_dataset import STARTER_DATASET_REMOTE_SERVER_METADATAS, STARTER_DATA_COMPONENT_TO_SPLIT, STARTER_DATA_COMPONENT_TO_SUBSET, STARTER_DATA_COMPONENTS, STARTER_DATA_LICENSES
 from fastcore.script import *
 
-### Interaction w/ remote server
+__all__ = ['main']
 
-def log_parameters(metadata_list, domains, subset, split, components, dest, dest_compressed, **kwargs):
+### Information
+def log_parameters(metadata_list, domains, subset, split, components, dest, dest_compressed, ignore_checksum, **kwargs):
   header('-------------------------------------')
-  header(f'From {bcolors.OKGREEN}SERVERS{bcolors.ENDC}:')
+  checksum = f'{bcolors.WARNING}False{bcolors.ENDC}' if ignore_checksum else f'{bcolors.OKGREEN}True{bcolors.ENDC}'
+  header(f'From {bcolors.OKGREEN}SERVERS{bcolors.ENDC}: (using checksum validation: {checksum})')
   for rsm in metadata_list: header(f'    {bcolors.UNDERLINE}{rsm.link_file}{bcolors.ENDC}')
   header('')
   header(f'Data {bcolors.OKGREEN}parameters{bcolors.ENDC}: (what to download)') 
@@ -25,14 +29,31 @@ def log_parameters(metadata_list, domains, subset, split, components, dest, dest
   header(f'Data {bcolors.OKGREEN}locations{bcolors.ENDC}:') 
   header(f'    {bcolors.WARNING}Dataset (extracted){bcolors.ENDC}      = {dest}') 
   header(f'    {bcolors.WARNING}Compressed files   {bcolors.ENDC}      = {dest_compressed}') 
-  header('-------------------------------------')
+  header('-------------------------------------\n\n')
   # print(f'[{bcolors.OKGREEN}FETCHING{bcolors.ENDC}] metadata from:')
 
 def end_notes(**kwargs):
   notice(f'[{bcolors.OKGREEN + bcolors.BOLD}Download complete{bcolors.ENDC}]')
   notice('    Number of model files downloaded={}')
   notice('Recap:')
-  log_parameters(**kwargs))
+  log_parameters(**kwargs)
+
+##
+
+### Pre-download validation
+def licenses_clickthrough(components, require_prompt, component_to_license):
+  if components == 'all': components = component_to_license.keys()
+  license('Before continuing the download, please review the terms of use for each of the following component datasets:')
+  for component in components:
+    license(f"    {bcolors.WARNING}{component}{bcolors.ENDC}: \x1B]8;;{component_to_license[component]}\x1B\\{component_to_license[component]}\x1B]8;;\x1B\\")
+  if not require_prompt: notice("Confirmation supplied by option '--agree_all'\n"); return
+  else: 
+    while True: 
+      res = input("By entering 'y', I confirm that I have read and accept the above linked terms and conditions [y/n]: ").lower()
+      if res == 'y': break
+      elif res == 'n': print(f'[{bcolors.FAIL + bcolors.BOLD}EXIT{bcolors.ENDC}] Agreement declined: cancelling download.'); exit(0)
+  notice("Agreement accepted. Continuing download.\n")
+  return
 
 def validate_checksums_exist(models):
   models_without_checksum = [m for m in models if m.checksum is None]
@@ -43,8 +64,15 @@ def validate_checksums_exist(models):
     if len(models_without_checksum) > show_k:  print(f'    and {len(models_without_checksum) - show_k} more...')
     print(f'Since "--ignore_checksum=False", cannot continue. Aborting.')
     exit(1)
-##
 
+def filter_models(models, domains, subset, split, components, component_to_split, component_to_subset):
+  return [m for m in models 
+    if (components == 'all' or m.component_name in components)
+    and (subset == 'all' or component_to_subset[m.component_name] is None or m.model_name in component_to_subset[m.component_name][subset]) 
+    and (split == 'all' or component_to_split[m.component_name] is None or m.model_name in component_to_split[m.component_name])
+    and (domains == 'all' or m.domain in domains)
+    ]
+## 
 
 ### Downloading
 def ensure_aria2_server(aria2_create_server, aria2_uri, aria2_secret, connections_total, connections_per_server_per_download, aria2_cmdline_opts, **kwargs):
@@ -95,6 +123,7 @@ def wait_on(a2api, gid, duration=0.2):
   return success
 ##
 
+
 ### Untarring
 def untar(fpath, model, dest=None, ignore_existing=True,
     output_structure=('domain', 'component_name', 'model_name'), # Desired directory structure
@@ -112,17 +141,8 @@ def untar(fpath, model, dest=None, ignore_existing=True,
 
 ##
 
-def filter_models(models, domains, subset, split, components, component_to_split, component_to_subset):
-  return [m for m in models 
-    if (components == 'all' or m.component_name in components)
-    and (subset == 'all' or component_to_subset[m.component_name] is None or m.model_name in component_to_subset[m.component_name][subset]) 
-    and (split == 'all' or component_to_split[m.component_name] is None or m.model_name in component_to_split[m.component_name])
-    and (domains == 'all' or m.domain in domains)
-    ]
-
-
 @call_parse
-def main(
+def download(
   domains:     Param("Domains to download (comma-separated or 'all')", str, nargs='+'),
   subset:      Param("Subset to download", str, choices=['debug', 'tiny', 'medium', 'full', 'fullplus'])='debug',
   split:       Param("Split to download", str, choices=['train', 'val', 'test', 'all'])='all',
@@ -143,7 +163,8 @@ def main(
   aria2_uri:              Param("Location of aria2c RPC (if None, use CLI)", str)="http://localhost:6800", 
   aria2_cmdline_opts:     Param("Opts to pass to aria2c", str)='',  
   aria2_create_server:    Param("Create a RPC server at aria2_uri", bool_arg)=True, 
-  aria2_secret:           Param("Secret for aria2c RPC", str)='', 
+  aria2_secret:           Param("Secret for aria2c RPC", str)='',
+  agree_all:      Param("Agree to all license clickwraps.", store_true)=False, 
   ):
   ''' 
     Downloads Omnidata starter dataset.
@@ -152,19 +173,26 @@ def main(
     This function downloads the compressed and decompresses it.
 
     Examples:
-      python download_tools.py rgb normals point_info --components clevr_simple clevr_complex --connections_total 30
+      download rgb normals point_info --components clevr_simple clevr_complex --connections_total 30
   '''
-  metadata_list=STARTER_DATASET_REMOTE_SERVER_METADATAS
+  # The following data could instead be supplied from the remote server:
+  metadata_list = STARTER_DATASET_REMOTE_SERVER_METADATAS # Param("Metadata servers to search", Iterable[RemoteStorageMetadata])
+  component_to_split = STARTER_DATA_COMPONENT_TO_SPLIT    # Param("Train/Val/Test splits for each component", Dict[str, Dict[str, Iterable[str]]])
+  component_to_subset = STARTER_DATA_COMPONENT_TO_SUBSET  # Param("Debug/.../fullplus splits for each component", Dict[str, Iterable[str]])
+  component_to_license = STARTER_DATA_LICENSES            # Param("Licenses for each component dataset", Dict[str, Iterable[str]])
+
   log_parameters(**locals())
+  licenses_clickthrough(components, require_prompt=not agree_all, component_to_license=component_to_license)
   aria2 = ensure_aria2_server(**locals())
+
 
   # Determine which models to use
   models = [metadata.parse(url)
-            for metadata in STARTER_DATASET_REMOTE_SERVER_METADATAS
+            for metadata in metadata_list 
             for url in metadata.links]
   models = filter_models(models, domains, subset, split, components, 
-            component_to_split=STARTER_DATA_COMPONENT_TO_SPLIT,
-            component_to_subset=STARTER_DATA_COMPONENT_TO_SUBSET)
+            component_to_split=component_to_split,
+            component_to_subset=component_to_subset)
   models = models[num_chunk::num_total_chunks] # Parallelization: striped slice of models array
   if ignore_checksum: validate_checksums_exist(models)
 
@@ -185,8 +213,7 @@ def main(
       p.map(process_model, models)
 
   # Cleanup
-
-  pass
+  end_notes(**locals())
 
 
 if __name__ == '__main__':

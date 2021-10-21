@@ -1,3 +1,0 @@
-[console_scripts]
-omnitools.download = omnidata_tools.dataset.download:download
-

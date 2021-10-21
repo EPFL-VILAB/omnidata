@@ -39,6 +39,7 @@ setuptools.setup(
     ] + ['Programming Language :: Python :: '+o for o in py_versions[py_versions.index(min_python):]] + (['License :: ' + lic[1] ] if lic[1] else []),
     url = cfg['git_url'],
     packages = setuptools.find_packages(),
+    package_data={'': ['*.csv', '*.json']},
     include_package_data = True,
     install_requires = requirements,
     dependency_links = cfg.get('dep_links','').split(),

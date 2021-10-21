@@ -33,24 +33,26 @@ nb_path: "nbs/07_annotator_usage.ipynb"
 <div class="text_cell_render border-box-sizing rendered_html">
 <video width="100%" height="464" playsinline="" autoplay="" center="" loop="" muted="" class="video-bg" id="video-bg" poster="./loading.gif">
 <source src="https://omnidata.vision/assets/videos/input_output.mp4" type="video/mp4" alt="HTML5 background video">
-</video><p>The Omnidata annotater is a tool to parametrically resample 3D scans and output a vision dataset. It works through a simple command-line interface (CLI) and to simplify installation we provide a public <a href="https://github.com/EPFL-VILAB/omnidata-annotator#installation">Dockerized implementation</a>. The <a href="https://github.com/EPFL-VILAB/omnidata-annotator">source code</a> is available on github.</p>
-<h2 id="Demo">Demo<a class="anchor-link" href="#Demo"> </a></h2><p>To run an example (generating a dataset from a single building in the Habitat-Matterport 3D dataset), check out the <a href="https://github.com/EPFL-VILAB/omnidata-annotator#quickstart-run-demo">demo in the main annotator repository</a>.</p>
+</video><p>The Omnidata annotator is a tool to parametrically resample 3D scans and output a vision dataset. It works through a simple command-line interface (CLI) and to simplify installation we provide a public <a href="https://github.com/EPFL-VILAB/omnidata-annotator#installation">Dockerized implementation</a>. The <a href="https://github.com/EPFL-VILAB/omnidata-annotator">source code</a> is available on github.</p>
+<h2 id="Demo">Demo<a class="anchor-link" href="#Demo"> </a></h2><p>The <a href="https://github.com/EPFL-VILAB/omnidata-annotator#quickstart-run-demo">demo in the main annotator repository</a> shows how to generate a dataset from a single building (in the Habitat-Matterport 3D dataset).</p>
+<p><img src="https://omnidata.vision/assets/main_page/dataset_design_1.jpg" alt="drawing" style="max-width: 100%;"></p>
+<p>Head over to the <a href="https://github.com/EPFL-VILAB/omnidata-annotator#quickstart-run-demo">annotator repo</a> to try it out!</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Handling-annotator-outputs">Handling annotator outputs<a class="anchor-link" href="#Handling-annotator-outputs"> </a></h3><h4 id="Using-the-data-for-training-vision-models">Using the data for training vision models<a class="anchor-link" href="#Using-the-data-for-training-vision-models"> </a></h4><p>Pytorch dataloaders. <a href="/omnidata-annotator/dataloaders.html">Link</a></p>
-<h3 id="Distributing-the-data">Distributing the data<a class="anchor-link" href="#Distributing-the-data"> </a></h3><h4 id="Uploading-data-to-a-server">Uploading data to a server<a class="anchor-link" href="#Uploading-data-to-a-server"> </a></h4><p>Compressing &amp; uploading the data with <code>omnitools.upload</code></p>
-<h4 id="Downloading-data-from-a-server">Downloading data from a server<a class="anchor-link" href="#Downloading-data-from-a-server"> </a></h4><p>Downloading, validating, and decompressing with <code>omnitools.download</code></p>
+<h3 id="What-next:-handling-annotator-outputs">What next: handling annotator outputs<a class="anchor-link" href="#What-next:-handling-annotator-outputs"> </a></h3><h4 id="Dataloaders">Dataloaders<a class="anchor-link" href="#Dataloaders"> </a></h4><p>Once you've generated some data, you'll probably want to distribute it and/or use it for training your own models. We've released some <a href="/omnidata-annotator/dataloaders.html">generic PyTorch dataloaders</a> that should make it easy to use the generated data for training.</p>
+<p><br></p>
+<h4 id="omnitools.upload-&amp;-omnitools.download">omnitools.upload &amp; omnitools.download<a class="anchor-link" href="#omnitools.upload-&amp;-omnitools.download"> </a></h4><p>We also provide some CLI utilities via the <code>omnitools</code> command, to help with efficiently moving and releasing data. In particular, <code>omnitools.upload</code> is for compressing &amp; uploading the data while <code>omnitools.download</code> does downloadling, validation, and decompression. More info on the omnitools CLI can be found <a href="/omnidata-annotator/omnitools.html">here</a></p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="More-documentation">More documentation<a class="anchor-link" href="#More-documentation"> </a></h2><p>More documentation is <a href="/omnidata-tools/annotator_documentation.html">available here</a></p>
+<h2 id="More-documentation">More documentation<a class="anchor-link" href="#More-documentation"> </a></h2><p>More documentation for the annotator is <a href="/omnidata-tools/annotator_documentation.html">available here</a></p>
 
 </div>
 </div>

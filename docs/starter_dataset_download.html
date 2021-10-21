@@ -31,7 +31,7 @@ nb_path: "nbs/01_starter_dataset_download.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Download/Installation">Download/Installation<a class="anchor-link" href="#Download/Installation"> </a></h2><p><strong><code>omnitools.download</code> is a one-line utility for rapidly downloading the starter (&amp; similar) datasets.</strong> For more about the tools themselves (<code>omnitools.download</code> and <code>omnitools.upload</code>), please see the <a href="./download_tool.html">dedicated page</a>.</p>
+<h2 id="Download/Installation">Download/Installation<a class="anchor-link" href="#Download/Installation"> </a></h2><p><strong><code>omnitools.download</code> is a one-line utility for rapidly downloading the starter (&amp; similar) datasets.</strong> For more about the tools themselves (<code>omnitools.download</code> and <code>omnitools.upload</code>), please see the <a href="/omnidata-tools/omnitools.html">dedicated page</a>.</p>
 <!-- **_NOTE:_  There's also a complementary `omnitools.upload` that compresses and stores datasets in a compliant format. If you use the omnidata annotator to create a new datset, then `omnitools.upload` might be useful for when you want to distribute that dataset. I.e. other people will be able to use the download tool to download your dataset.** -->
 
 <p>To download the starter dataset, make sure that omnidata-tooling is installed and then run the full download command which will prompt you to accept the component licenses to proceed:</p>
@@ -49,13 +49,15 @@ nb_path: "nbs/01_starter_dataset_download.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<div class="highlight"><pre><span></span>pip install <span class="s1">&#39;omnidata-tools&#39;</span> <span class="c1"># Just to make sure it&#39;s installed</span>
+<div class="highlight"><pre><span></span><span class="c1"># Make sure everything is installed</span>
+sudo apt-get install aria2
+pip install <span class="s1">&#39;omnidata-tools&#39;</span> <span class="c1"># Just to make sure it&#39;s installed</span>
+
 <span class="c1"># Install the &#39;debug&#39; subset of the Replica and Taskonomy components of the dataset</span>
 omnitools.download rgb normals point_info <span class="se">\</span>
   --components replica taskonomy <span class="se">\</span>
   --subset debug <span class="se">\</span>
-  --dest ./omnidata_starter_dataset/ <span class="se">\</span>
-  --connections_total <span class="m">30</span> --agree
+  --dest ./omnidata_starter_dataset/
 </pre></div>
 
 </div>
@@ -70,8 +72,43 @@ omnitools.download rgb normals point_info <span class="se">\</span>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://alexsax.github.io/omnidata-tools/images/download_example.jpg" alt="drawing" style="max-width: 100%;"></p>
-<!-- ![./assets/download_example.jpg](https://alexsax.github.io/omnidata-tools/) -->
+<p><img src="https://epfl-vilab.github.io/omnidata-tools/images/download_example.jpg" alt="drawing" style="max-width: 100%;"></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Examples">Examples<a class="anchor-link" href="#Examples"> </a></h2><p>Here are some other examples:</p>
+<p>Download the full Omnidata dataset and agree to licenses</p>
+<div class="highlight"><pre><span></span>omnitools.download all --components all --subset fullplus <span class="se">\</span>
+  --dest ./omnidata_starter_dataset/ <span class="se">\</span>
+  --connections_total <span class="m">40</span> --agree
+</pre></div>
+<p>Download Taskonomy only:</p>
+<div class="highlight"><pre><span></span>omnitools.download all --components taskonomy --subset fullplus <span class="se">\</span>
+  --dest ./omnidata_starter_dataset/ <span class="se">\</span>
+  --connections_total <span class="m">40</span> --agree
+</pre></div>
+<p>Omnidata but only depth and masks and keep the compressed files</p>
+<div class="highlight"><pre><span></span>omnitools.download rgb depth mask_valid --components all --subset fullplus <span class="se">\</span>
+  --dest ./omnidata_starter_dataset/ <span class="se">\</span>
+  --connections_total <span class="m">40</span> --agree
+</pre></div>
+<p>Download meshes for Clevr</p>
+<div class="highlight"><pre><span></span>omnitools.download mesh --components clevr_simple --subset fullplus <span class="se">\</span>
+  --dest ./omnidata_starter_dataset/ <span class="se">\</span>
+  --dest_compressed ./omnidata_starter_dataset_compresssed --keep_compressed True <span class="se">\</span>
+  --connections_total <span class="m">40</span> --agree
+</pre></div>
+<p>Use multiple workers to download Omnidata--this is for worker 7/100, but do a dryrun</p>
+<div class="highlight"><pre><span></span>omnitools.download all --components all --subset fullplus <span class="se">\</span>
+  --num_chunk <span class="m">6</span> --num_total_chunks <span class="m">100</span> <span class="se">\</span>
+  --dest ./omnidata_starter_dataset/ <span class="se">\</span>
+  --connections_total <span class="m">40</span> --agree --dryrun
+</pre></div>
+<p>...you get the idea :)</p>
+
 </div>
 </div>
 </div>

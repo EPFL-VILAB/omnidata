@@ -44,7 +44,7 @@ def end_notes(**kwargs):
 def licenses_clickthrough(components, require_prompt, component_to_license):
   if components == 'all': components = component_to_license.keys()
   license('Before continuing the download, please review the terms of use for each of the following component datasets:')
-  for component in components:
+  for component in set(components + ['omnidata']):
     license(f"    {bcolors.WARNING}{component}{bcolors.ENDC}: \x1B]8;;{component_to_license[component]}\x1B\\{component_to_license[component]}\x1B]8;;\x1B\\")
   if not require_prompt: notice("Confirmation supplied by option '--agree_all'\n"); return
   else: 

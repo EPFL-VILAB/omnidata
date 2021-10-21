@@ -69,6 +69,7 @@ STARTER_DATA_COMPONENT_TO_SUBSET = {k: getattr(v, 'subset_to_spaces', None) for 
 
 
 STARTER_DATA_LICENSES = {
+  'omnidata':       'https://raw.githubusercontent.com/EPFL-VILAB/omnidata-tools/main/LICENSE',
   'replica':        'https://raw.githubusercontent.com/facebookresearch/Replica-Dataset/main/LICENSE',
   'hypersim':       'https://raw.githubusercontent.com/apple/ml-hypersim/master/LICENSE.txt',
   'gso_in_replica': 'https://creativecommons.org/licenses/by/4.0/legalcode',

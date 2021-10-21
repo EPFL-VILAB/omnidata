@@ -75,7 +75,7 @@ STARTER_DATA_LICENSES = {
   'clevr_simple':   'https://creativecommons.org/licenses/by/4.0/legalcode',
   'clevr_complex':  'https://creativecommons.org/licenses/by/4.0/legalcode',
   'blendedmvs':     'https://creativecommons.org/licenses/by/4.0/legalcode',
-  'taskonomy':      'https://creativecommons.org/licenses/by/4.0/legalcode',
+  'taskonomy':      'https://raw.githubusercontent.com/StanfordVL/taskonomy/master/data/LICENSE',
   'hm3d':           'https://matterport.com/matterport-end-user-license-agreement-academic-use-model-data'
 }
 

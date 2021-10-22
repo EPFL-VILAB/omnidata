@@ -2,7 +2,7 @@ import aria2p
 import multiprocess as mp
 from functools import partial
 import atexit, os, signal, shutil, tempfile, time
-from   subprocess import call, run, Popen
+from   subprocess import call, run, Popen, check_output
 import tarfile 
 from   typing import Dict, Optional, Iterable
 from   argparse import SUPPRESS
@@ -10,8 +10,10 @@ from   argparse import SUPPRESS
 from .metadata import RemoteStorageMetadata, ZippedModel, bcolors, notice, header, license
 from .starter_dataset import STARTER_DATASET_REMOTE_SERVER_METADATAS, STARTER_DATA_COMPONENT_TO_SPLIT, STARTER_DATA_COMPONENT_TO_SUBSET, STARTER_DATA_COMPONENTS, STARTER_DATA_LICENSES
 from fastcore.script import *
+import tqdm
 
 __all__ = ['main']
+FORBIDDEN_COMPONENTS = set('habitat2')
 
 ### Information
 def log_parameters(metadata_list, domains, subset, split, components, dest, dest_compressed, ignore_checksum, **kwargs):
@@ -42,10 +44,9 @@ def end_notes(**kwargs):
 
 ### Pre-download validation
 def licenses_clickthrough(components, require_prompt, component_to_license):
-  if components == 'all': components = component_to_license.keys()
-  else: components = components + ['omnidata']
+  components = set(components + ['omnidata']) # Make sure everyone accepts omnidata terms
   license('Before continuing the download, please review the terms of use for each of the following component datasets:')
-  for component in set(components):
+  for component in components:
     license(f"    {bcolors.WARNING}{component}{bcolors.ENDC}: \x1B]8;;{component_to_license[component]}\x1B\\{component_to_license[component]}\x1B]8;;\x1B\\")
   if not require_prompt: notice("Confirmation supplied by option '--agree_all'\n"); return
   else: 
@@ -68,9 +69,9 @@ def validate_checksums_exist(models):
 
 def filter_models(models, domains, subset, split, components, component_to_split, component_to_subset):
   return [m for m in models 
-    if (components == 'all' or m.component_name in components)
-    and (subset == 'all' or component_to_subset[m.component_name] is None or m.model_name in component_to_subset[m.component_name][subset]) 
-    and (split == 'all' or component_to_split[m.component_name] is None or m.model_name in component_to_split[m.component_name])
+    if (m.component_name.lower() in components)
+    and (subset == 'all' or component_to_subset[m.component_name.lower()] is None or m.model_name in component_to_subset[m.component_name.lower()][subset]) 
+    and (split == 'all' or component_to_split[m.component_name.lower()] is None or m.model_name in component_to_split[m.component_name.lower()])
     and (domains == 'all' or m.domain in domains)
     ]
 ## 
@@ -83,8 +84,8 @@ def ensure_aria2_server(aria2_create_server, aria2_uri, aria2_secret, connection
   n = connections_total 
   x = connections_per_server_per_download if connections_per_server_per_download is not None else connections_total
   x = min(x, 16)
-  a2server = Popen(('aria2c --enable-rpc --rpc-listen-all -c --auto-file-renaming=false ' +
-                    '--optimize-concurrent-downloads ' + 
+  a2server = Popen(('aria2c --enable-rpc --rpc-listen-all --disable-ipv6 -c --auto-file-renaming=false ' +
+                    # '--optimize-concurrent-downloads ' + 
                     f'-s{n}  -j{n}  -x{x} {aria2_cmdline_opts}').split())
   atexit.register(os.kill, a2server.pid, signal.SIGINT)
   return aria2p.API(aria2p.Client(host=a2host, port=a2port, secret=aria2_secret))
@@ -103,17 +104,32 @@ def download_tar(url, output_dir='.', output_name=None, n=20, n_per_server=10,
     while (max_tries_per_model := max_tries_per_model-1) > 0:
       res = aria2api.client.add_uri(uris=[url], options={
         'out': fname, 'dir': output_dir,
-        'check_integrity': True, 'checksum': checksum
+        'check_integrity': True, 'checksum': f"md5={checksum}"
         })
       success = wait_on(aria2api, res)
       if success: break
     if not success: return None
   else:
+    # os.makedirs(output_dir, exist_ok=True)
+    # cmd = f'lftp -e "pget -n {n} {url} -o {fpath}"'
+    # # print(cmd)
+    # call(cmd, shell=True) 
+
     options = f'-c --auto-file-renaming=false'
+    if n_per_server is None: n_per_server = min(n, 16)
     options += f' -s {n} -j {n} -x {n_per_server}' # N connections
-    if checksum is not None: options += f' --check-integrity=true --checksum={checksum}'
-    cmd = f'aria2c -d {output_dir} -o {fname} {options} "{url}"'
-    call(cmd, shell=True)
+    if checksum is not None: options += f' --check-integrity=true --checksum=md5={checksum}'
+    cmd = f'aria2c -k 1M -d {output_dir} -o {fname} {options} "{url}"'
+    # print(cmd)
+    call(cmd, shell=True) 
+
+    # os.makedirs(output_dir, exist_ok=True)
+    # cmd = f'axel -q -o {fpath} -c -n {n} "{url}" '
+    # success = True
+    # while (max_tries_per_model := max_tries_per_model-1) > 0:
+    #   call(cmd, shell=True)
+    #   if checksum is not None: success = (check_output(['md5sum', fpath], encoding='UTF-8').split()[0] == checksum)
+    # if not success: return None
   return fpath
 
 def wait_on(a2api, gid, duration=0.2):
@@ -154,9 +170,9 @@ def download(
   keep_compressed:  Param("Don't delete compressed files after decompression", bool_arg)=False,
   only_download:    Param("Only download compressed data", bool_arg)=False,
   max_tries_per_model:    Param("Number of times to try to download model if checksum fails.", int)=3,  
-  connections_total:      Param("Number of simultaneous aria2c connections overall (note: if not using the RPC server, this is per-worker)", int)=8,
+  connections_total:      Param("Number of simultaneous aria2c connections overall (note: if not using the RPC server, this is per-worker)", int)=32,
   connections_per_server_per_download: Param("Number of simulatneous aria2c connections per server per download. Defaults to 'total_connections' (note: if not using the RPC server, this is per-worker)", int)=None,
-  n_workers:              Param("Number of workers to use", int)=mp.cpu_count(),
+  n_workers:              Param("Number of workers to use", int)=min(mp.cpu_count(), 16),
   num_chunk:        Param("Download the kth slice of the overall dataset", int)=0,
   num_total_chunks: Param("Download the dataset in N total chunks. Use with '--num_chunk'", int)=1, 
   ignore_checksum:  Param("Ignore checksum validation", bool_arg)=False,
@@ -182,10 +198,10 @@ def download(
   component_to_subset = STARTER_DATA_COMPONENT_TO_SUBSET  # Param("Debug/.../fullplus splits for each component", Dict[str, Iterable[str]])
   component_to_license = STARTER_DATA_LICENSES            # Param("Licenses for each component dataset", Dict[str, Iterable[str]])
 
+  if components == 'all': components = list(component_to_license.keys())
   log_parameters(**locals())
   licenses_clickthrough(components, require_prompt=not agree_all, component_to_license=component_to_license)
   aria2 = ensure_aria2_server(**locals())
-
 
   # Determine which models to use
   models = [metadata.parse(url)
@@ -202,23 +218,26 @@ def download(
   def process_model(model):
     tar_fpath = download_tar(
                   model.url, output_dir=dest_compressed, output_name=model.fname, 
-                  checksum=f'md5={model.checksum}', aria2api=aria2, dryrun=dryrun)
+                  checksum=model.checksum, n=connections_total, n_per_server=connections_per_server_per_download,
+                  aria2api=aria2, dryrun=dryrun)
     if tar_fpath is None: return
     if only_download:     return
     untar(tar_fpath, dest=dest, model=model, ignore_existing=True, dryrun=dryrun)
     if not keep_compressed: os.remove(tar_fpath)
 
-  if n_workers <=1 : [process_model(model) for model in models]
+  if n_workers <=1 : 
+    for model in tqdm.tqdm(models): process_model(model)
   else:
     with mp.Pool(n_workers) as p:
-      p.map(process_model, models)
+      r = list(tqdm.tqdm(p.imap(process_model, models), total=len(models)))
+      # p.map(process_model, models)
 
   # Cleanup
   end_notes(**locals())
 
 
 if __name__ == '__main__':
-  a2server = Popen('aria2c --enable-rpc --rpc-listen-all -c --auto-file-renaming=false -s 10 -x 10'.split())
+  a2server = Popen('aria2c --enable-rpc --rpc-listen-all --disable-ipv6 -c --auto-file-renaming=false -s 10 -x 10'.split())
 
   time.sleep(0.2)
   model = ZippedModel(

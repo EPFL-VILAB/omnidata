@@ -36,7 +36,7 @@ def log_parameters(metadata_list, domains, subset, split, components, dest, dest
 
 def end_notes(**kwargs):
   notice(f'[{bcolors.OKGREEN + bcolors.BOLD}Download complete{bcolors.ENDC}]')
-  notice('    Number of model files downloaded={}')
+  notice(f'    Number of model files downloaded={len(kwargs["models"])}')
   notice('Recap:')
   log_parameters(**kwargs)
 
@@ -61,18 +61,28 @@ def validate_checksums_exist(models):
   models_without_checksum = [m for m in models if m.checksum is None]
   if len(models_without_checksum) > 0: 
     show_k = 100
-    print(f'Found {len(models_without_checksum)} models without checksums:')
+    notice(f'Found {len(models_without_checksum)} models without checksums:')
     for m in models_without_checksum[:show_k]: print(f'    {m.url}')
     if len(models_without_checksum) > show_k:  print(f'    and {len(models_without_checksum) - show_k} more...')
     print(f'Since "--ignore_checksum=False", cannot continue. Aborting.')
     exit(1)
 
 def filter_models(models, domains, subset, split, components, component_to_split, component_to_subset):
+  # for m in models:
+  #   if m.component_name == 'taskonomy':
+  #     notice(f'{m.component_name} [{m.domain}]')
+  #     print(components, domains)
+  #     print(m.component_name.lower() in components)
+  #     print(subset == 'all' or component_to_subset[m.component_name.lower()] is None or m.model_name in component_to_subset[m.component_name.lower()][subset]) 
+  #     print(split == 'all' or component_to_split[m.component_name.lower()] is None or m.model_name in component_to_split[m.component_name.lower()])
+  #     print('all' in domains or m.domain in domains)
+  #     print("\n")
+
   return [m for m in models 
     if (m.component_name.lower() in components)
     and (subset == 'all' or component_to_subset[m.component_name.lower()] is None or m.model_name in component_to_subset[m.component_name.lower()][subset]) 
     and (split == 'all' or component_to_split[m.component_name.lower()] is None or m.model_name in component_to_split[m.component_name.lower()])
-    and (domains == 'all' or m.domain in domains)
+    and ('all' in domains or m.domain in domains)
     ]
 ## 
 
@@ -210,6 +220,7 @@ def download(
   models = filter_models(models, domains, subset, split, components, 
             component_to_split=component_to_split,
             component_to_subset=component_to_subset)
+  notice(f'Found {len(models)} matching blobs on remote serverss.')
   models = models[num_chunk::num_total_chunks] # Parallelization: striped slice of models array
   if ignore_checksum: validate_checksums_exist(models)
 

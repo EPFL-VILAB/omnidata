@@ -34,14 +34,8 @@ for subset in taskonomy_split_to_buildings:
     for split, buildings in taskonomy_split_to_buildings[subset].items():
         flat_split_to_spaces[subset + '-' + split] = buildings
 
-flat_split_to_spaces = {}
-for subset in taskonomy_split_to_buildings:
-    for split, buildings in taskonomy_split_to_buildings[subset].items():
-        flat_split_to_spaces[subset + '-' + split] = buildings
-
 split_to_spaces = taskonomy_split_to_buildings['fullplus']
 subset_to_spaces = {subset: get_all_spaces(splits) for subset, splits in taskonomy_split_to_buildings.items()}
-
 ###############################################################################
 #  Semantic segmentation:
 ###############################################################################

@@ -27,7 +27,7 @@ class ZippedModel:
   def __init__(self, component_name, domain, model_name, url, tar_structure, checksum=None):
     self.component_name = component_name
     self.domain         = domain.lower()
-    self.model_name     = model_name.lower()
+    self.model_name     = model_name
     self.url            = url
     self.ext = ".".join(self.url.split('/')[-1].split('.')[1:])
     self.fname = f'{domain}__{component_name}__{model_name}.{self.ext}'

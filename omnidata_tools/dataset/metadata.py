@@ -37,7 +37,7 @@ class ZippedModel:
 class RemoteStorageMetadata:
   ''' Contains/gets metadata about what/where data is stored on some remote endpoint. '''
   def __init__(self, 
-      link_file, checksum_file=None, expected_suffix='.tar.gz', 
+      link_file, checksum_file=None, expected_suffix='.tar', 
       tar_structure=('domain', 'component_name', 'model_name')
     ) -> None: store_attr()
   

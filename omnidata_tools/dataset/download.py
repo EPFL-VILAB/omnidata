@@ -69,7 +69,7 @@ def validate_checksums_exist(models):
 
 def filter_models(models, domains, subset, split, components, component_to_split, component_to_subset):
   # for m in models:
-  #   if m.component_name == 'taskonomy':
+  #   if m.component_name.lower() == 'replica':
   #     notice(f'{m.component_name} [{m.domain}]')
   #     print(components, domains)
   #     print(m.component_name.lower() in components)
@@ -77,13 +77,16 @@ def filter_models(models, domains, subset, split, components, component_to_split
   #     print(split == 'all' or component_to_split[m.component_name.lower()] is None or m.model_name in component_to_split[m.component_name.lower()])
   #     print('all' in domains or m.domain in domains)
   #     print("\n")
-
-  return [m for m in models 
+  # notice(f"Servers contain {len(models)} models")
+  # notice(f'{set([m.component_name for m in models])}')
+  filtered = [m for m in models 
     if (m.component_name.lower() in components)
     and (subset == 'all' or component_to_subset[m.component_name.lower()] is None or m.model_name in component_to_subset[m.component_name.lower()][subset]) 
     and (split == 'all' or component_to_split[m.component_name.lower()] is None or m.model_name in component_to_split[m.component_name.lower()])
     and ('all' in domains or m.domain in domains)
     ]
+  # notice(f"Filtered down to {len(filtered)} models based on specified criteria.")
+  return filtered
 ## 
 
 ### Downloading
@@ -111,11 +114,10 @@ def download_tar(url, output_dir='.', output_name=None, n=20, n_per_server=10,
   # checksum = checksum[:-3] + '000'
   # print(checksum)
   if aria2api is not None:
+    options_dict = { 'out': fname, 'dir': output_dir, 'check_integrity': True}
+    if checksum is not None: options_dict['checksum'] = f"md5={checksum}"
     while (max_tries_per_model := max_tries_per_model-1) > 0:
-      res = aria2api.client.add_uri(uris=[url], options={
-        'out': fname, 'dir': output_dir,
-        'check_integrity': True, 'checksum': f"md5={checksum}"
-        })
+      res = aria2api.client.add_uri(uris=[url], options=options_dict)
       success = wait_on(aria2api, res)
       if success: break
     if not success: return None
@@ -124,7 +126,6 @@ def download_tar(url, output_dir='.', output_name=None, n=20, n_per_server=10,
     # cmd = f'lftp -e "pget -n {n} {url} -o {fpath}"'
     # # print(cmd)
     # call(cmd, shell=True) 
-
     options = f'-c --auto-file-renaming=false'
     if n_per_server is None: n_per_server = min(n, 16)
     options += f' -s {n} -j {n} -x {n_per_server}' # N connections
@@ -185,7 +186,7 @@ def download(
   n_workers:              Param("Number of workers to use", int)=min(mp.cpu_count(), 16),
   num_chunk:        Param("Download the kth slice of the overall dataset", int)=0,
   num_total_chunks: Param("Download the dataset in N total chunks. Use with '--num_chunk'", int)=1, 
-  ignore_checksum:  Param("Ignore checksum validation", bool_arg)=False,
+  ignore_checksum:  Param("Ignore checksum validation", bool_arg)=True,
   dryrun:           Param("Keep compressed files even after decompressing", store_true)=False,
   aria2_uri:              Param("Location of aria2c RPC (if None, use CLI)", str)="http://localhost:6800", 
   aria2_cmdline_opts:     Param("Opts to pass to aria2c", str)='',  
@@ -222,21 +223,23 @@ def download(
             component_to_subset=component_to_subset)
   notice(f'Found {len(models)} matching blobs on remote serverss.')
   models = models[num_chunk::num_total_chunks] # Parallelization: striped slice of models array
-  if ignore_checksum: validate_checksums_exist(models)
+  if not ignore_checksum: validate_checksums_exist(models)
 
 
   # Process download
+
   def process_model(model):
     tar_fpath = download_tar(
                   model.url, output_dir=dest_compressed, output_name=model.fname, 
-                  checksum=model.checksum, n=connections_total, n_per_server=connections_per_server_per_download,
+                  checksum=None if ignore_checksum else model.checksum,
+                  n=connections_total, n_per_server=connections_per_server_per_download,
                   aria2api=aria2, dryrun=dryrun)
     if tar_fpath is None: return
     if only_download:     return
     untar(tar_fpath, dest=dest, model=model, ignore_existing=True, dryrun=dryrun)
     if not keep_compressed: os.remove(tar_fpath)
 
-  if n_workers <=1 : 
+  if n_workers < 1 : 
     for model in tqdm.tqdm(models): process_model(model)
   else:
     with mp.Pool(n_workers) as p:

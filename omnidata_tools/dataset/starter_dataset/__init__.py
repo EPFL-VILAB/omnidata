@@ -10,7 +10,7 @@ from .component_datasets import taskonomy, hypersim, replica, gso_in_replica, bl
 
 # --- Specifics ---
 class OmnidataMetadata(RemoteBucketStorageMetadata):
-  def __init__(self, base_url='https://datasets.epfl.ch/omnidata//', **kwargs):
+  def __init__(self, base_url='https://datasets.epfl.ch/omnidata/', **kwargs):
     super().__init__(base_url=base_url, **kwargs)
 
   @functools.cached_property
@@ -19,9 +19,9 @@ class OmnidataMetadata(RemoteBucketStorageMetadata):
   
   def parse(self, url) -> ZippedModel:
     '''Most omnidata files are stored like: https://datasets.epfl.ch/omnidata//omnidata_tars/depth_euclidean/blendedMVS/depth_euclidean-blendedMVS-000000000000000000000000.tar.gz'''
-    split_urls = url.split('//') 
-    if not ((url_len := len(split_urls)) == 3): raise ValueError(f'Expected url to be split into 3 components, not {url_len}: "{url}"')
-    _, domain, component_name, fname = split_urls[2].split('/')
+    split_urls = url.split('/') 
+    if not ((url_len := len(split_urls)) == 8): raise ValueError(f'Expected url to be split into 8 components, not {url_len}: "{url}"')
+    domain, component_name, fname = split_urls[5:8]
     domain2, component_name2, *model_name = fname[:-len(self.expected_suffix)].split('-')
     if not url.endswith(self.expected_suffix): raise ValueError(f'Expected compressed url to end with "{self.expected_suffix}": {url}')
     if not component_name == component_name2: raise ValueError(f'Expected domain from fname ("{component_name2}" in "{fname}") to match domain in url ("{component_name}" in "{url}").') 
@@ -48,7 +48,7 @@ class TaskonomyMetadata(RemoteBucketStorageMetadata):
     return ZippedModel(component_name=component_name, domain=domain, model_name=model_name, url=url, tar_structure=self.tar_structure, checksum=self.checksum(url))
 
 STARTER_DATASET_REMOTE_SERVER_METADATAS = [
-  OmnidataMetadata( base_url='https://datasets.epfl.ch/omnidata//'),
+  OmnidataMetadata( base_url='https://datasets.epfl.ch/omnidata/', expected_suffix='.tar'),
   TaskonomyMetadata( base_url='https://datasets.epfl.ch/taskonomy/'),
 ]
 

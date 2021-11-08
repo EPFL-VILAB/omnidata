@@ -7,7 +7,7 @@ import tarfile
 from   typing import Dict, Optional, Iterable
 from   argparse import SUPPRESS
 
-from .metadata import RemoteStorageMetadata, ZippedModel, bcolors, notice, header, license
+from .metadata import RemoteStorageMetadata, ZippedModel, bcolors, notice, header, license, failure
 from .starter_dataset import STARTER_DATASET_REMOTE_SERVER_METADATAS, STARTER_DATA_COMPONENT_TO_SPLIT, STARTER_DATA_COMPONENT_TO_SUBSET, STARTER_DATA_COMPONENTS, STARTER_DATA_LICENSES
 from fastcore.script import *
 import tqdm
@@ -229,15 +229,19 @@ def download(
   # Process download
 
   def process_model(model):
-    tar_fpath = download_tar(
+    try:
+      tar_fpath = download_tar(
                   model.url, output_dir=dest_compressed, output_name=model.fname, 
                   checksum=None if ignore_checksum else model.checksum,
                   n=connections_total, n_per_server=connections_per_server_per_download,
                   aria2api=aria2, dryrun=dryrun)
-    if tar_fpath is None: return
-    if only_download:     return
-    untar(tar_fpath, dest=dest, model=model, ignore_existing=True, dryrun=dryrun)
-    if not keep_compressed: os.remove(tar_fpath)
+      if tar_fpath is None: return
+      if only_download:     return
+      untar(tar_fpath, dest=dest, model=model, ignore_existing=True, dryrun=dryrun)
+      if not keep_compressed: os.remove(tar_fpath)
+    except Exception as e:
+      failure(f"Failure when processing model {model.url} (stacktrace below)")
+      raise e
 
   if n_workers < 1 : 
     for model in tqdm.tqdm(models): process_model(model)

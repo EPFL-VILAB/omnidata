@@ -21,7 +21,7 @@ def notice(msg): print(f'[{bcolors.OKGREEN + bcolors.BOLD}NOTICE{bcolors.ENDC}] 
 def header(msg): print(f'[{bcolors.HEADER + bcolors.BOLD}HEADER{bcolors.ENDC}] {msg}')
 def license(msg): print(f'[{bcolors.WARNING + bcolors.BOLD}LICENSE{bcolors.ENDC}] {msg}')
 def underline(msg): print(f'{bcolors.UNDERLINE}{msg}{bcolors.ENDC}')
-
+def failure(msg): print(f'[{bcolors.FAIL + bcolors.BOLD}FAILURE{bcolors.ENDC}] {msg}')
 
 class ZippedModel:
   def __init__(self, component_name, domain, model_name, url, tar_structure, checksum=None):

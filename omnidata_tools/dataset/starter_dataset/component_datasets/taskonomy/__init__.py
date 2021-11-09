@@ -12,10 +12,10 @@ from ..splits import get_splits, get_all_spaces
 ###############################################################################
 subsets = ['debug', 'tiny', 'medium', 'full', 'fullplus']
 
-forbidden_buildings = ['mosquito', 'tansboro', 'tomkins', 'darnestown', 'brinnon'] # We do not have the rgb data for tomkins, darnestown, brinnon
+forbidden_buildings = ['mosquito', 'tansboro', 'tomkins', 'darnestown', 'brinnon', 'rough'] # We do not have the rgb data for tomkins, darnestown, brinnon
 # forbidden_buildings += ['rough'] # Contains some wrong viewpoints
 # forbidden_buildings += ['wiconisco'] # Bad texture?
-forbidden_buildings = []
+# forbidden_buildings = []
 
 taskonomy_split_files = {
         s: os.path.join( os.path.dirname(__file__), 'train_val_test_{}.csv'.format(s.lower()) )

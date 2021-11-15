@@ -69,7 +69,7 @@ def validate_checksums_exist(models):
 
 def filter_models(models, domains, subset, split, components, component_to_split, component_to_subset):
   # for m in models:
-  #   if m.component_name.lower() == 'replica':
+  #   if m.component_name.lower() == 'hm3d':
   #     notice(f'{m.component_name} [{m.domain}]')
   #     print(components, domains)
   #     print(m.component_name.lower() in components)
@@ -78,14 +78,20 @@ def filter_models(models, domains, subset, split, components, component_to_split
   #     print('all' in domains or m.domain in domains)
   #     print("\n")
   # notice(f"Servers contain {len(models)} models")
-  # notice(f'{set([m.component_name for m in models])}')
+  # unique_components = set([m.component_name for m in models])
+  # component_to_domains = {k: set() for k in unique_components}
+  # for m in models: component_to_domains[m.component_name].add(m.domain)
+  # notice(f'{unique_components}')
+  # for component, found_domains in component_to_domains.items(): notice(f'{component}: {found_domains}')
+  print(domains)
   filtered = [m for m in models 
     if (m.component_name.lower() in components)
     and (subset == 'all' or component_to_subset[m.component_name.lower()] is None or m.model_name in component_to_subset[m.component_name.lower()][subset]) 
     and (split == 'all' or component_to_split[m.component_name.lower()] is None or m.model_name in component_to_split[m.component_name.lower()])
     and ('all' in domains or m.domain in domains)
     ]
-  # notice(f"Filtered down to {len(filtered)} models based on specified criteria.")
+  notice(f"Filtered down to {len(filtered)} models based on specified criteria.")
+  # exit(0)
   return filtered
 ## 
 
@@ -159,7 +165,7 @@ def untar(fpath, model, dest=None, ignore_existing=True,
   ) -> None:
   dest_fpath = os.path.join(dest, *[getattr(model, a) for a in output_structure])
   if dest is not None: os.makedirs(dest, exist_ok=True)
-  if os.path.exists(dest_fpath) and ignore_existing: notice(f'"{dest_fpath}" already exists... skipping'); return
+  if os.path.exists(dest_fpath) and ignore_existing: notice(f'"{dest_fpath}" already has some files... skipping re-download. If this behavior is undesired, delete or move this folder'); return
   with tempfile.TemporaryDirectory(dir=dest) as tmpdirname:
     src_fpath = os.path.join(tmpdirname, *[getattr(model, a) for a in model.tar_structure])
     if dryrun: print(f'Extracting "{fpath}"" to "{tmpdirname}" and moving "{src_fpath}" to "{dest_fpath}"'); return
@@ -175,7 +181,7 @@ def download(
   subset:      Param("Subset to download", str, choices=['debug', 'tiny', 'medium', 'full', 'fullplus'])='debug',
   split:       Param("Split to download", str, choices=['train', 'val', 'test', 'all'])='all',
   components:  Param("Component datasets to download (comma-separated)", str, nargs='+',
-    choices=['all','replica','taskonomy','gso_in_replica','hypersim','blendedmvs','hm3d','clevr_simple','clevr_complex'])='all',
+    choices=['all','replica','taskonomy','replica_gso','hypersim','blendedmvg','hm3d','clevr_simple','clevr_complex'])='all',
   dest:             Param("Where to put the uncompressed data", str)='uncompressed/',
   dest_compressed:  Param("Where to download the compressed data", str)='compressed/',
   keep_compressed:  Param("Don't delete compressed files after decompression", bool_arg)=False,
@@ -228,8 +234,10 @@ def download(
 
   # Process download
 
-  def process_model(model):
+  def process_model(model, ignore_existing=True, output_structure=('domain', 'component_name', 'model_name')):
     try:
+      dest_fpath = os.path.join(dest, *[getattr(model, a) for a in output_structure])
+      if os.path.exists(dest_fpath) and ignore_existing: notice(f'"{dest_fpath}" already has some files... skipping re-download. If this behavior is undesired, delete or move this folder'); return
       tar_fpath = download_tar(
                   model.url, output_dir=dest_compressed, output_name=model.fname, 
                   checksum=None if ignore_checksum else model.checksum,
@@ -237,7 +245,7 @@ def download(
                   aria2api=aria2, dryrun=dryrun)
       if tar_fpath is None: return
       if only_download:     return
-      untar(tar_fpath, dest=dest, model=model, ignore_existing=True, dryrun=dryrun)
+      untar(tar_fpath, dest=dest, model=model, ignore_existing=ignore_existing, dryrun=dryrun, output_structure=output_structure)
       if not keep_compressed: os.remove(tar_fpath)
     except Exception as e:
       failure(f"Failure when processing model {model.url} (stacktrace below)")

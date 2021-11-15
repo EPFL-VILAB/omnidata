@@ -6,7 +6,7 @@ from ..metadata import RemoteBucketStorageMetadata, ZippedModel
 
 # SPLITS | Which spaces to download
 
-from .component_datasets import taskonomy, hypersim, replica, gso_in_replica, blendedmvs
+from .component_datasets import taskonomy, hypersim, replica, replica_gso, blendedmvg
 
 # --- Specifics ---
 class OmnidataMetadata(RemoteBucketStorageMetadata):
@@ -57,8 +57,8 @@ STARTER_DATA_COMPONENTS = {
   'taskonomy': taskonomy,
   'hypersim': hypersim,
   'replica': replica,
-  'gso_in_replica': gso_in_replica,
-  'blendedmvs': blendedmvs,
+  'replica_gso': replica_gso,
+  'blendedmvg': blendedmvg,
   'hm3d': None,
   'clevr_simple': None,
   'clevr_complex': None
@@ -72,10 +72,10 @@ STARTER_DATA_LICENSES = {
   'omnidata':       'https://raw.githubusercontent.com/EPFL-VILAB/omnidata-tools/main/LICENSE',
   'replica':        'https://raw.githubusercontent.com/facebookresearch/Replica-Dataset/main/LICENSE',
   'hypersim':       'https://raw.githubusercontent.com/apple/ml-hypersim/master/LICENSE.txt',
-  'gso_in_replica': 'https://creativecommons.org/licenses/by/4.0/legalcode',
+  'replica_gso': 'https://creativecommons.org/licenses/by/4.0/legalcode',
   'clevr_simple':   'https://creativecommons.org/licenses/by/4.0/legalcode',
   'clevr_complex':  'https://creativecommons.org/licenses/by/4.0/legalcode',
-  'blendedmvs':     'https://creativecommons.org/licenses/by/4.0/legalcode',
+  'blendedmvg':     'https://creativecommons.org/licenses/by/4.0/legalcode',
   'taskonomy':      'https://raw.githubusercontent.com/StanfordVL/taskonomy/master/data/LICENSE',
   'hm3d':           'https://matterport.com/matterport-end-user-license-agreement-academic-use-model-data'
 }

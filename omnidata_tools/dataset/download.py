@@ -6,16 +6,21 @@ from   subprocess import call, run, Popen, check_output
 import tarfile
 from tarfile import ReadError
 from   typing import Dict, Optional, Iterable
-from   argparse import SUPPRESS
+from   argparse import SUPPRESS, ArgumentError
 
 from .metadata import RemoteStorageMetadata, ZippedModel, bcolors, notice, header, license, failure, print_and_log_failure
 from .starter_dataset import STARTER_DATASET_REMOTE_SERVER_METADATAS, STARTER_DATA_COMPONENT_TO_SPLIT, STARTER_DATA_COMPONENT_TO_SUBSET, STARTER_DATA_COMPONENTS, STARTER_DATA_LICENSES
 from fastcore.script import *
 import tqdm
+import re
+import requests
+import urllib
 
 __all__ = ['main']
 FORBIDDEN_COMPONENTS = set('habitat2')
 ERROR_LIST = []
+EMAIL_REGEX = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfif1hRfUfomonuhJVku7gwqI5L2Wb-D7NzreuU_eiNfchH1g/formResponse?usp=pp_url&entry.1488105878={name}&entry.2089583672={email}"
 
 ### Information
 def log_parameters(metadata_list, domains, subset, split, components, dest, dest_compressed, ignore_checksum, **kwargs):
@@ -47,20 +52,39 @@ def end_notes(**kwargs):
   log_parameters(**kwargs)
 
 ##
+def email_valid(email): return re.fullmatch(EMAIL_REGEX, email)
+def prompt_email():
+  while True: 
+    email = input("Please enter a valid email to associate with this download: ").lower()
+    if email_valid(email): break
+    failure(f'{email} not a valid email.')
+  return email
+
+def prompt_name(email):
+  while True: 
+    res = input(f"Please enter your name associated '{email}': ").lower()
+    if res != '': break
+  return res
 
 ### Pre-download validation
-def licenses_clickthrough(components, require_prompt, component_to_license):
+def licenses_clickthrough(components, require_prompt, component_to_license, email, name):
   components = set(components + ['omnidata']) # Make sure everyone accepts omnidata terms
   license('Before continuing the download, please review the terms of use for each of the following component datasets:')
   for component in components:
     license(f"    {bcolors.WARNING}{component}{bcolors.ENDC}: \x1B]8;;{component_to_license[component]}\x1B\\{component_to_license[component]}\x1B]8;;\x1B\\")
-  if not require_prompt: notice("Confirmation supplied by option '--agree_all'\n"); return
+  if not require_prompt:
+    if not (name and email_valid(email)): raise ValueError("In order to use --agree_all you must also supply a name and valid email through the args --name NAME and --email USER@DOMAIN)")
+    print(name, email)
+    notice("Confirmation supplied by option '--agree_all'\n")
   else: 
     while True: 
       res = input("By entering 'y', I confirm that I have read and accept the above linked terms and conditions [y/n]: ").lower()
       if res == 'y': break
       elif res == 'n': print(f'[{bcolors.FAIL + bcolors.BOLD}EXIT{bcolors.ENDC}] Agreement declined: cancelling download.'); exit(0)
-  notice("Agreement accepted. Continuing download.\n")
+    if not email: email = prompt_email()
+    if not name: name = prompt_name(email)
+    notice("Agreement accepted. Continuing download.\n")
+  result = urllib.request.urlopen(GOOGLE_FORM_URL.format(name=name, email=email))
   return
 
 def validate_checksums_exist(models):
@@ -209,6 +233,8 @@ def download(
   aria2_create_server:    Param("Create a RPC server at aria2_uri", bool_arg)=True, 
   aria2_secret:           Param("Secret for aria2c RPC", str)='',
   agree_all:      Param("Agree to all license clickwraps.", store_true)=False, 
+  email:          Param("Email used to agree to clickwraps.", str)='',
+  name:           Param("Name used to agree to clickwraps.", str)='',
   ):
   ''' 
     Downloads Omnidata starter dataset.
@@ -227,7 +253,7 @@ def download(
 
   if components == 'all': components = list(component_to_license.keys())
   log_parameters(**locals())
-  licenses_clickthrough(components, require_prompt=not agree_all, component_to_license=component_to_license)
+  licenses_clickthrough(components, require_prompt=not agree_all, component_to_license=component_to_license, email=email, name=name)
   aria2 = ensure_aria2_server(**locals())
 
   # Determine which models to use

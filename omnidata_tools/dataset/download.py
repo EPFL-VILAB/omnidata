@@ -3,17 +3,19 @@ import multiprocess as mp
 from functools import partial
 import atexit, os, signal, shutil, tempfile, time
 from   subprocess import call, run, Popen, check_output
-import tarfile 
+import tarfile
+from tarfile import ReadError
 from   typing import Dict, Optional, Iterable
 from   argparse import SUPPRESS
 
-from .metadata import RemoteStorageMetadata, ZippedModel, bcolors, notice, header, license, failure
+from .metadata import RemoteStorageMetadata, ZippedModel, bcolors, notice, header, license, failure, print_and_log_failure
 from .starter_dataset import STARTER_DATASET_REMOTE_SERVER_METADATAS, STARTER_DATA_COMPONENT_TO_SPLIT, STARTER_DATA_COMPONENT_TO_SUBSET, STARTER_DATA_COMPONENTS, STARTER_DATA_LICENSES
 from fastcore.script import *
 import tqdm
 
 __all__ = ['main']
 FORBIDDEN_COMPONENTS = set('habitat2')
+ERROR_LIST = []
 
 ### Information
 def log_parameters(metadata_list, domains, subset, split, components, dest, dest_compressed, ignore_checksum, **kwargs):
@@ -37,6 +39,10 @@ def log_parameters(metadata_list, domains, subset, split, components, dest, dest
 def end_notes(**kwargs):
   notice(f'[{bcolors.OKGREEN + bcolors.BOLD}Download complete{bcolors.ENDC}]')
   notice(f'    Number of model files downloaded={len(kwargs["models"])}')
+  if len(kwargs['errors']) > 0:
+    notice(f'    Ran into {len(kwargs["errors"])} non-critical failures:')
+    for err in kwargs['errors']:
+      notice(err)
   notice('Recap:')
   log_parameters(**kwargs)
 
@@ -110,12 +116,16 @@ def ensure_aria2_server(aria2_create_server, aria2_uri, aria2_secret, connection
   return aria2p.API(aria2p.Client(host=a2host, port=a2port, secret=aria2_secret))
 
 
+def get_tar_fname_and_fpath(url, output_dir, output_name=None):
+  fname = url.split('/')[-1] if output_name is None else output_name
+  fpath = os.path.join(output_dir, fname)
+  return fname, fpath
+
 def download_tar(url, output_dir='.', output_name=None, n=20, n_per_server=10,
   checksum=None, max_tries_per_model=3, aria2api=None, dryrun=False,
   ) -> Optional[str]:
   '''Downloads "url" to output filename. Returns downloaded fpath.'''
-  fname = url.split('/')[-1] if output_name is None else output_name
-  fpath = os.path.join(output_dir, fname)
+  fname, fpath = get_tar_fname_and_fpath(url, output_dir, output_name)
   if dryrun: print(f'Downloading "{url}"" to "{fpath}"'); return fpath
   # checksum = checksum[:-3] + '000'
   # print(checksum)
@@ -165,7 +175,7 @@ def untar(fpath, model, dest=None, ignore_existing=True,
   ) -> None:
   dest_fpath = os.path.join(dest, *[getattr(model, a) for a in output_structure])
   if dest is not None: os.makedirs(dest, exist_ok=True)
-  if os.path.exists(dest_fpath) and ignore_existing: notice(f'"{dest_fpath}" already has some files... skipping re-download. If this behavior is undesired, delete or move this folder'); return
+  if os.path.exists(dest_fpath) and ignore_existing: notice(f'"{dest_fpath}" already has some uncompressed files and no .tar file. Assuming this means download was successful and a previous run deleted the compressed file, so skipping re-download. If this behavior is undesired, delete or move this folder'); return
   with tempfile.TemporaryDirectory(dir=dest) as tmpdirname:
     src_fpath = os.path.join(tmpdirname, *[getattr(model, a) for a in model.tar_structure])
     if dryrun: print(f'Extracting "{fpath}"" to "{tmpdirname}" and moving "{src_fpath}" to "{dest_fpath}"'); return
@@ -237,7 +247,8 @@ def download(
   def process_model(model, ignore_existing=True, output_structure=('domain', 'component_name', 'model_name')):
     try:
       dest_fpath = os.path.join(dest, *[getattr(model, a) for a in output_structure])
-      if os.path.exists(dest_fpath) and ignore_existing: notice(f'"{dest_fpath}" already has some files... skipping re-download. If this behavior is undesired, delete or move this folder'); return
+      _, tar_fpath = get_tar_fname_and_fpath(model.url, output_dir=dest_compressed, output_name=model.fname)
+      if os.path.exists(dest_fpath) and (not os.path.exists(tar_fpath)) and ignore_existing: notice(f'"{dest_fpath}" already has some files... skipping re-download. If this behavior is undesired, delete or move this folder'); return
       tar_fpath = download_tar(
                   model.url, output_dir=dest_compressed, output_name=model.fname, 
                   checksum=None if ignore_checksum else model.checksum,
@@ -247,17 +258,22 @@ def download(
       if only_download:     return
       untar(tar_fpath, dest=dest, model=model, ignore_existing=ignore_existing, dryrun=dryrun, output_structure=output_structure)
       if not keep_compressed: os.remove(tar_fpath)
+    except ReadError as e:
+      msg = f"ReadError when untarring {model.url}"
+      failure(msg)
+      return msg
     except Exception as e:
-      failure(f"Failure when processing model {model.url} (stacktrace below)")
+      failure(f"Uncaught error when processing model {model.url} (stacktrace below)")
       raise e
 
   if n_workers < 1 : 
-    for model in tqdm.tqdm(models): process_model(model)
+    errors = [process_model(model) for model in tqdm.tqdm(models)]
   else:
     with mp.Pool(n_workers) as p:
-      r = list(tqdm.tqdm(p.imap(process_model, models), total=len(models)))
+      errors = list(tqdm.tqdm(p.imap(process_model, models), total=len(models)))
       # p.map(process_model, models)
-
+  errors = [f"        {e}" for e in errors if e is not None] 
+  
   # Cleanup
   end_notes(**locals())
 

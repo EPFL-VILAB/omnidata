@@ -23,6 +23,10 @@ def license(msg): print(f'[{bcolors.WARNING + bcolors.BOLD}LICENSE{bcolors.ENDC}
 def underline(msg): print(f'{bcolors.UNDERLINE}{msg}{bcolors.ENDC}')
 def failure(msg): print(f'[{bcolors.FAIL + bcolors.BOLD}FAILURE{bcolors.ENDC}] {msg}')
 
+def print_and_log_failure(msg, error_list):
+    failure(msg)
+    error_list.append(msg)
+
 class ZippedModel:
   def __init__(self, component_name, domain, model_name, url, tar_structure, checksum=None):
     self.component_name = component_name

@@ -12,7 +12,7 @@ from ..splits import get_splits, get_all_spaces
 ###############################################################################
 subsets = ['debug', 'tiny', 'medium', 'full', 'fullplus']
 
-forbidden_buildings = ['mosquito', 'tansboro', 'tomkins', 'darnestown', 'brinnon', 'rough'] # We do not have the rgb data for tomkins, darnestown, brinnon
+forbidden_buildings = ['mosquito', 'tansboro', 'tomkins', 'darnestown', 'brinnon', 'rough', 'woodbine'] # We do not have the rgb data for tomkins, darnestown, brinnon
 # forbidden_buildings += ['rough'] # Contains some wrong viewpoints
 # forbidden_buildings += ['wiconisco'] # Bad texture?
 # forbidden_buildings = []

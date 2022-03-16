@@ -17,7 +17,7 @@ Table of Contents
    * [Omnidata Tools](#omnidata-tools)
    * [Omnidata Starter Dataset](#omnidata-starter-dataset)
    * [Omnidata Documentation](#omnidata-documentation)
-   * [Paper Code](#omnidata-paper-code)
+   * [Paper Code](#omnidata-paper-code-not-for-reuse)
    * [Citing](#citation)
 
 # [Omnidata Annotator](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_annotator)
@@ -37,7 +37,13 @@ Semantic Segmentation (8-bit)
 
 ![](./assets/depth_to_norm.gif)
 
-[`Omnidata-tools`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) includes [strong pretrained models](https://docs.omnidata.vision/pretrained.html#Pretrained-Models) for depth and surface normal estimation, [training code](//docs.omnidata.vision/training.html), [dataloaders](https://docs.omnidata.vision/dataloaders.html), starter dataset [download and upload utilities](//docs.omnidata.vision/omnitools.html), the first publicly [available implementation](https://docs.omnidata.vision/training.html#MiDaS-Implementation) of [MiDaS training code](https://github.com/isl-org/MiDaS), an implementation of the [3D image refocusing augmentation](https://docs.omnidata.vision/training.html#3D-Depth-of-Field-Augmentation) introduced in the paper, and more (detailed in the [docs](//docs.omnidata.vision)).
+[`Omnidata-tools`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) includes:
+
+   * strong pretrained models for depth and surface normal estimation: ([code](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch#pretrained-models)) ([docs](https://docs.omnidata.vision/pretrained.html#Pretrained-Models))
+   * the first publicly available implementation of [Midas](https://github.com/isl-org/MiDaS) loss and training code: ([code](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch#midas-implementation)) ([docs](https://docs.omnidata.vision/training.html#MiDaS-Implementation))
+   * an implementation of the 3D image refocusing augmentation introduced in the paper: ([code](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch#3d-image-refocusing)) ([docs](https://docs.omnidata.vision/training.html#3D-Depth-of-Field-Augmentation))
+   * download and upload utilities for the starter dataset: ([docs](https://docs.omnidata.vision/omnitools.html))
+   * and more detailed in the [docs](//docs.omnidata.vision).
 
 **Install this package:** `pip install 'omnidata-tools'` <br>
 **Documentation**: [https://docs.omnidata.vision](//docs.omnidata.vision) for details of this package.  <br>
@@ -55,11 +61,11 @@ In order to download the dataset, please refer to the [download page](https://do
 We provice a detailed [`documentation`](https://docs.omnidata.vision) for everything that we open-sourced from the paper, including downloading and usage of [starter data](https://docs.omnidata.vision/starter_dataset.html), using the [annotator](https://docs.omnidata.vision/annotator_usage.html), [training code](https://docs.omnidata.vision/training.html) and [pretrained models](https://docs.omnidata.vision/pretrained.html).
 
 
-# [Omnidata Paper Code](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/paper_code)
-[`Paper Code`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools) contains a code dump of all the code used in the paper. This code is not for reusage. [`Omnidata-tools`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools) contains the code to train you own models on Omnidata.
+# [Omnidata Paper Code (not for reuse)](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/paper_code)
+[`Paper Code`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools) contains a code dump of all the code used in the paper. **This code is not for reuse**. [`Omnidata-tools`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools) contains the code to train you own models on Omnidata.
 
 # Citation
-If you find the code or models useful, please cite the paper:
+If you find the code, dataset, or models useful, please cite the paper:
 ```
 @inproceedings{eftekhar2021omnidata,
   title={Omnidata: A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets From 3D Scans},

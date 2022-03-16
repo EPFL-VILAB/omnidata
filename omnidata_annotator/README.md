@@ -20,7 +20,7 @@ Table of Contents
 =================
    * [Introduction](#introduction)
    * [Installation](#installation)
-   * [Quickstart (run demo)](#quickstart-run-demo)
+   * [Quickstart (Run demo)](#quickstart-run-demo)
    * [Documentation](#documentation)
    * [Citing](#citation)
 

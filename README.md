@@ -2,9 +2,10 @@
 
 # Omni ↦ Data (Steerable Datasets)
   
-**A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets from 3D Scans**
+**A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets from 3D Scans (ICCV 2021)**
+  
 
-[`Project Website`](https://omnidata.vision) &centerdot; [`Docs`](//docs.omnidata.vision) &centerdot; [`Annotator Repo`](https://github.com/Ainaz99/omnidata-annotator) &centerdot; [`Starter Data`](//docs.omnidata.vision/starter_dataset.html) &centerdot;  [**`>> [Tools] <<`**](https://github.com/Ainaz99/omnidata-tools) &centerdot; [`Paper Code`](https://github.com/Ainaz99/Omnidata)
+[`Project Website`](https://omnidata.vision) &centerdot; [`Paper`](https://arxiv.org/abs/2110.04994) &centerdot; [`Docs`](//docs.omnidata.vision) &centerdot; [`Annotator`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_annotator) &centerdot; [`Starter Data`](//docs.omnidata.vision/starter_dataset.html) &centerdot;  [`Tools`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) &centerdot; [`Paper Code`](https://github.com/Ainaz99/Omnidata)
 
 </div>
 
@@ -32,11 +33,11 @@ Keypoints 3D (16-bit)    2D Segmentation (8-bit)     2.5D Segmentation (8-bit)
 Semantic Segmentation (8-bit)
 ```
 
-# [Omnidata Tools](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools)
+# [Omnidata Tools](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch)
 
 ![](./assets/depth_to_norm.gif)
 
-[`Omnidata-tools`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools) includes [strong pretrained models](https://docs.omnidata.vision/pretrained.html#Pretrained-Models) for depth and surface normal estimation, [training code](//docs.omnidata.vision/training.html), [dataloaders](https://docs.omnidata.vision/dataloaders.html), starter dataset [download and upload utilities](//docs.omnidata.vision/omnitools.html), the first publicly [available implementation](https://docs.omnidata.vision/training.html#MiDaS-Implementation) of [MiDaS training code](https://github.com/isl-org/MiDaS), an implementation of the [3D image refocusing augmentation](https://docs.omnidata.vision/training.html#3D-Depth-of-Field-Augmentation) introduced in the paper, and more (detailed in the [docs](//docs.omnidata.vision)).
+[`Omnidata-tools`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) includes [strong pretrained models](https://docs.omnidata.vision/pretrained.html#Pretrained-Models) for depth and surface normal estimation, [training code](//docs.omnidata.vision/training.html), [dataloaders](https://docs.omnidata.vision/dataloaders.html), starter dataset [download and upload utilities](//docs.omnidata.vision/omnitools.html), the first publicly [available implementation](https://docs.omnidata.vision/training.html#MiDaS-Implementation) of [MiDaS training code](https://github.com/isl-org/MiDaS), an implementation of the [3D image refocusing augmentation](https://docs.omnidata.vision/training.html#3D-Depth-of-Field-Augmentation) introduced in the paper, and more (detailed in the [docs](//docs.omnidata.vision)).
 
 **Install this package:** `pip install 'omnidata-tools'` <br>
 **Documentation**: [https://docs.omnidata.vision](//docs.omnidata.vision) for details of this package.  <br>

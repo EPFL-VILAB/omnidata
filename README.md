@@ -5,7 +5,7 @@
 **A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets from 3D Scans (ICCV 2021)**
   
 
-[`Project Website`](https://omnidata.vision) &centerdot; [`Paper`](https://arxiv.org/abs/2110.04994) &centerdot; [`Docs`](//docs.omnidata.vision) &centerdot; [`Annotator`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_annotator) &centerdot; [`Starter Data`](//docs.omnidata.vision/starter_dataset.html) &centerdot;  [`Tools`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) &centerdot; [`Paper Code`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools)
+[`Project Website`](https://omnidata.vision) &centerdot; [`Paper`](https://arxiv.org/abs/2110.04994) &centerdot; [`Docs`](//docs.omnidata.vision) &centerdot; [`Annotator`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_annotator) &centerdot; [`Starter Data`](//docs.omnidata.vision/starter_dataset.html) &centerdot;  [`Tools`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) &centerdot; [`Paper Code`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/paper_code)
 
 </div>
 
@@ -55,7 +55,7 @@ In order to download the dataset, please refer to the [download page](https://do
 We provice a detailed [`documentation`](https://docs.omnidata.vision) for everything that we open-sourced from the paper, including downloading and usage of [starter data](https://docs.omnidata.vision/starter_dataset.html), using the [annotator](https://docs.omnidata.vision/annotator_usage.html), [training code](https://docs.omnidata.vision/training.html) and [pretrained models](https://docs.omnidata.vision/pretrained.html).
 
 
-# [Omnidata Paper Code](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools)
+# [Omnidata Paper Code](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/paper_code)
 [`Paper Code`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools) contains a code dump of all the code used in the paper. This code is not for reusage. [`Omnidata-tools`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools) contains the code to train you own models on Omnidata.
 
 # Citation

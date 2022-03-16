@@ -1,0 +1,16 @@
+<!DOCTYPE FilterScript>
+<FilterScript>
+
+
+  <filter name="Normalize Vertex Normals"/>
+  <filter name="Normalize Face Normals"/>
+ 
+ <filter name="Colorize curvature (APSS)">
+  <Param name="SelectionOnly" value="false" type="RichBool" tooltip="If checked, only selected vertices will be projected." description="Selection only"/>
+  <Param name="FilterScale" value="4" type="RichFloat" tooltip="Scale of the spatial low pass filter.&#xa;It is relative to the radius (local point spacing) of the vertices." description="MLS - Filter scale"/>
+  <Param name="ProjectionAccuracy" value="0.0001" type="RichFloat" tooltip="Threshold value used to stop the projections.&#xa;This value is scaled by the mean point spacing to get the actual threshold." description="Projection - Accuracy (adv)"/>
+  <Param name="MaxProjectionIters" value="15" type="RichInt" tooltip="Max number of iterations for the projection." description="Projection - Max iterations (adv)"/>
+  <Param name="SphericalParameter" value="1" type="RichFloat" tooltip="Control the curvature of the fitted spheres: 0 is equivalent to a pure plane fit,1 to a pure spherical fit, values between 0 and 1 gives intermediate results,while other real values might give interesting results, but take care with extremesettings !" description="MLS - Spherical parameter"/>
+  <Param enum_cardinality="5" value="3" enum_val0="Mean" enum_val1="Gauss" enum_val2="K1" enum_val3="K2" enum_val4="ApproxMean" name="CurvatureType" type="RichEnum" tooltip="The type of the curvature to plot.&lt;br>ApproxMean uses the radius of the fitted sphere as an approximation of the mean curvature." description="Curvature type"/>
+ </filter>
+</FilterScript>

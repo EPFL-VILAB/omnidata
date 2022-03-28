@@ -14,7 +14,7 @@
 Table of Contents
 =================
    * [Omnidata Annotator](#omnidata-annotator)
-   * [Omnidata Tools](#omnidata-tools) [NEW (24 Mar, 2022): V2 Improved pretrained models](https://docs.omnidata.vision/pretrained.html#Pretrained-Models))
+   * [Omnidata Tools](#omnidata-tools) **NEW** (24 Mar, 2022): [V2 Improved pretrained models](https://docs.omnidata.vision/pretrained.html#Pretrained-Models))
    * [Omnidata Starter Dataset](#omnidata-starter-dataset)
    * [Omnidata Documentation](#omnidata-documentation)
    * [Paper Code](#omnidata-paper-code-not-for-reuse)

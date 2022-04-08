@@ -31,15 +31,16 @@ nb_path: "nbs/05_pretrained.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Installation">Installation<a class="anchor-link" href="#Installation"> </a></h2><div class="highlight"><pre><span></span>git clone https://github.com/Ainaz99/omnidata-tools
-<span class="nb">cd</span> omnidata-tools/torch
+<h2 id="Installation">Installation<a class="anchor-link" href="#Installation"> </a></h2><div class="highlight"><pre><span></span>git clone https://github.com/EPFL-VILAB/omnidata 
+<span class="nb">cd</span> omnidata/omnidata_tools/torch
 conda create -n testenv -y <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.8
 <span class="nb">source</span> activate testenv
 pip install -r requirements.txt
 </pre></div>
-<p>You can see the complete list of required packages in <a href="https://github.com/Ainaz99/omnidata-tools/blob/main/requirements.txt">omnidata-tools/torch/requirements.txt</a>. We recommend using virtualenv for the installation.</p>
-<h2 id="Pretrained-Models">Pretrained Models<a class="anchor-link" href="#Pretrained-Models"> </a></h2><p>We are providing our pretrained models which (as of publishing time) have state-of-the-art performance in depth and surface normal estimation.</p>
-<h4 id="Network-Architecture">Network Architecture<a class="anchor-link" href="#Network-Architecture"> </a></h4><p>The surface normal network is based on the <a href="https://arxiv.org/pdf/1505.04597.pdf">UNet</a> architecture (6 down/6 up). It is trained with both angular and L1 loss and input resolutions between 256 and 512.</p>
+<p>You can see the complete list of required packages in <a href="https://github.com/EPFL-VILAB/omnidata/blob/main/requirements.txt">omnidata-tools/torch/requirements.txt</a>. We recommend using virtualenv for the installation.</p>
+<h2 id="Pretrained-Models">Pretrained Models<a class="anchor-link" href="#Pretrained-Models"> </a></h2><p>You can download our pretrained models for surface normal estimation and depth estimation. For each task there are two versions of the models--a V1 used in the paper, and a stronger V2 released in March 2022.</p>
+<h3 id="Network-Architecture">Network Architecture<a class="anchor-link" href="#Network-Architecture"> </a></h3><h4 id="Version-2-models-(stronger-than-V1)">Version 2 models (stronger than V1)<a class="anchor-link" href="#Version-2-models-(stronger-than-V1)"> </a></h4><p>These are DPT architectures trained for</p>
+<h4 id="Version-1-models">Version 1 models<a class="anchor-link" href="#Version-1-models"> </a></h4><p>The surface normal network is based on the <a href="https://arxiv.org/pdf/1505.04597.pdf">UNet</a> architecture (6 down/6 up). It is trained with both angular and L1 loss and input resolutions between 256 and 512.</p>
 <p>The depth networks have DPT-based architectures (similar to <a href="https://github.com/isl-org/MiDaS">MiDaS v3.0</a>) and are trained with scale- and shift-invariant loss and scale-invariant gradient matching term introduced in <a href="https://arxiv.org/pdf/1907.01341v3.pdf">MiDaS</a>, and also <a href="https://openaccess.thecvf.com/content_ICCV_2019/papers/Yin_Enforcing_Geometric_Constraints_of_Virtual_Normal_for_Depth_Prediction_ICCV_2019_paper.pdf">virtual normal loss</a>. You can see a public implementation of the MiDaS loss <a href="#midas-implementation">here</a>. We provide 2 pretrained depth models for both DPT-hybrid and DPT-large architectures with input resolution 384.</p>
 <h4 id="Download-pretrained-models">Download pretrained models<a class="anchor-link" href="#Download-pretrained-models"> </a></h4><div class="highlight"><pre><span></span>sh ./tools/download_depth_models.sh
 sh ./tools/download_surface_normal_models.sh

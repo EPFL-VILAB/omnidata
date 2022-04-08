@@ -6,8 +6,8 @@ title: Training with Omnidata
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "This page describes how to train your own models with omnidata. For the exact code used in the paper, see the <a href='https://github.com/EPFL-VILAB/Omnidata'>paper code dump repo</a>."
-description: "This page describes how to train your own models with omnidata. For the exact code used in the paper, see the <a href='https://github.com/EPFL-VILAB/Omnidata'>paper code dump repo</a>."
+summary: "This page describes how to train your own models with omnidata. For the exact code used in the paper, see the <a href='https://github.com/EPFL-VILAB/omnidata/tree/main/paper_code'>paper code dump repo</a>."
+description: "This page describes how to train your own models with omnidata. For the exact code used in the paper, see the <a href='https://github.com/EPFL-VILAB/omnidata/tree/main/paper_code'>paper code dump repo</a>."
 nb_path: "nbs/06_training.ipynb"
 ---
 <!--
@@ -31,7 +31,7 @@ nb_path: "nbs/06_training.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Training-State-of-the-Art-Models">Training State-of-the-Art Models<a class="anchor-link" href="#Training-State-of-the-Art-Models"> </a></h2><p>Omnidata is a means to train state-of-the-art models in different vision tasks. Here, we provide the code for training our depth and surface normal estimation models. You can train the models with the following commands:</p>
+<h2 id="Training-Strong-Models">Training Strong Models<a class="anchor-link" href="#Training-Strong-Models"> </a></h2><p>Omnidata is a means to train models in different vision tasks. Here, we provide the code for training our depth and surface normal estimation models. You can train the models with the following commands:</p>
 <h2 id="Depth-Estimation">Depth Estimation<a class="anchor-link" href="#Depth-Estimation"> </a></h2><p>We train DPT-based models on Omnidata using 3 different losses: <code>scale- and shift-invariant loss</code> and <code>scale-invariant gradient matching term</code> introduced in <a href="https://arxiv.org/pdf/1907.01341v3.pdf">MiDaS</a>, and also <code>virtual normal loss</code> introduced <a href="https://openaccess.thecvf.com/content_ICCV_2019/papers/Yin_Enforcing_Geometric_Constraints_of_Virtual_Normal_for_Depth_Prediction_ICCV_2019_paper.pdf">here</a>.</p>
 <div class="highlight"><pre><span></span>python train_depth.py --config_file config/depth.yml --experiment_name rgb2depth --val_check_interval <span class="m">3000</span> --limit_val_batches <span class="m">100</span> --max_epochs <span class="m">10</span>
 </pre></div>

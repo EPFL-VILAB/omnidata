@@ -50,16 +50,27 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 # get target task and model
 if args.task == 'normal':
-    image_size = 512
-    pretrained_weights_path = root_dir + 'omnidata_rgb2normal_unet.pth'
-    model = UNet(in_channels=3, out_channels=3)
+    image_size = 384
+    # pretrained_weights_path = root_dir + 'omnidata_unet_normal_v1.pth'
+    # model = UNet(in_channels=3, out_channels=3)
+    # checkpoint = torch.load(pretrained_weights_path, map_location=map_location)
+
+    # if 'state_dict' in checkpoint:
+    #     state_dict = {}
+    #     for k, v in checkpoint['state_dict'].items():
+    #         state_dict[k.replace('model.', '')] = v
+    # else:
+    #     state_dict = checkpoint
+    pretrained_weights_path = root_dir + 'omnidata_dpt_normal_v2.ckpt'
+    model = DPTDepthModel(backbone='vitb_rn50_384', num_channels=3) # DPT Hybrid
     checkpoint = torch.load(pretrained_weights_path, map_location=map_location)
     if 'state_dict' in checkpoint:
         state_dict = {}
         for k, v in checkpoint['state_dict'].items():
-            state_dict[k.replace('model.', '')] = v
+            state_dict[k[6:]] = v
     else:
         state_dict = checkpoint
+
     model.load_state_dict(state_dict)
     model.to(device)
     trans_totensor = transforms.Compose([transforms.Resize(image_size, interpolation=PIL.Image.BILINEAR),
@@ -68,7 +79,7 @@ if args.task == 'normal':
 
 elif args.task == 'depth':
     image_size = 384
-    pretrained_weights_path = root_dir + 'omnidata_rgb2depth_dpt_hybrid.pth'
+    pretrained_weights_path = root_dir + 'omnidata_dpt_depth_v2.ckpt'
     # model = DPTDepthModel(backbone='vitl16_384') # DPT Large
     model = DPTDepthModel(backbone='vitb_rn50_384') # DPT Hybrid
     checkpoint = torch.load(pretrained_weights_path, map_location=map_location)

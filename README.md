@@ -1,77 +1,38 @@
-<div align="center">
+# Omnidata Docs
+> <strong>Quick links to docs</strong>: [ <a href='/omnidata-tools/pretrained.html'>Pretrained Models</a> ]  [ <a href='/omnidata-tools/starter_dataset.html'>Starter Dataset ]  [ <a href='//omnidata-tools/annotator_usage.html'>Annotator Demo</a> ] 
 
-# Omni ↦ Data (Steerable Datasets)
-  
-**A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets from 3D Scans (ICCV 2021)**
-  
 
-[`Project Website`](https://omnidata.vision) &centerdot; [`Paper`](https://arxiv.org/abs/2110.04994) &centerdot; [`Docs`](//docs.omnidata.vision) &centerdot; [`Annotator`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_annotator) &centerdot; [`Starter Data`](//docs.omnidata.vision/starter_dataset.html) &centerdot;  [`Tools`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) &centerdot; [`Paper Code`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/paper_code)
 
-</div>
+**This site is intended to be a wiki/documentation site for everything that we open-sourced from the paper.** There are three main folders: the annotator, utilities (dataloaders, download tools, pretrained models, etc), and a code dump of stuff from the paper that is just for reference. 
 
----
+(Check out the main site for an overview of 'steerable datastes' and the 3D → 2D rendering pipeline).
 
-Table of Contents
-=================
-   * [Omnidata Annotator](#omnidata-annotator)
-   * [Omnidata Tools](#omnidata-tools) \[ **\*NEW\*** (*March '22*) Stronger pretrained models: [quick link](https://docs.omnidata.vision/pretrained.html#Pretrained-Models)  \]
-   * [Omnidata Starter Dataset](#omnidata-starter-dataset)
-   * [Omnidata Documentation](#omnidata-documentation)
-   * [Paper Code](#omnidata-paper-code-not-for-reuse)
-   * [Citing](#citation)
 
-# [Omnidata Annotator](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_annotator)
 
-![](./assets/point_5.gif)
+<br>
 
-[`Omnidata-annotator`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_annotator) contains the dockerized annotator pipeline introduced in the paper. Omnidata annotator bridges the gap between 3D scans and static vision datasets by creating "steerable" multi-task datasets with 21 different mid-level cues from 3D meshes. It generates the data with as many images and cameras as desired to cover the space. The rendering pipeline offers control over the sampling and generation process, and different dataset design choices such as camera parameters. 13 of the 21 mid-level cues are listed below:
+#### Download the code
+If you want to see and edit the code, then you can clone the github and install with: 
+
 ```bash
-RGB (8-bit)              Surface Normals (8-bit)     Principal Curvature (8-bit)
-Re(shading) (8-bit)      Depth Z-Buffer (16-bit)     Depth Euclidean (16-bit)
-Texture Edges (16-bit)   Occlusion Edges (16-bit)    Keypoints 2D (16-bit)
-Keypoints 3D (16-bit)    2D Segmentation (8-bit)     2.5D Segmentation (8-bit)
-Semantic Segmentation (8-bit)
+git clone https://github.com/EPFL-VILAB/omnidata-tools
+cd omnidata-tools
+pip install -e .    # this will install the python requirements (and also install the CLI)
 ```
+This is probably the best option for you if you want to use the pretrained models, dataloaders, etc in other work.
 
-# [Omnidata Tools](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch)
-
-![](./assets/depth_to_norm.gif)
-
-[`Omnidata-tools`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) includes:
-
-   * strong pretrained models for depth and surface normal estimation: ([code](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch#pretrained-models)) ([docs](https://docs.omnidata.vision/pretrained.html#Pretrained-Models))
-   * the first publicly available implementation of [Midas](https://github.com/isl-org/MiDaS) loss and training code: ([code](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch#midas-implementation)) ([docs](https://docs.omnidata.vision/training.html#MiDaS-Implementation))
-   * an implementation of the 3D image refocusing augmentation introduced in the paper: ([code](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch#3d-image-refocusing)) ([docs](https://docs.omnidata.vision/training.html#3D-Depth-of-Field-Augmentation))
-   * download and upload utilities for the starter dataset: ([docs](https://docs.omnidata.vision/omnitools.html))
-   * and more detailed in the [docs](//docs.omnidata.vision).
-
-**Install this package:** `pip install 'omnidata-tools'` <br>
-**Documentation**: [https://docs.omnidata.vision](//docs.omnidata.vision) for details of this package.  <br>
-**Project Overview**: The [project website](https://omnidata.vision) or the [ICCV21 paper](https://omnidata.vision/#paper) provide a broad overview of the project.
-
-# [Omnidata Starter Dataset](https://docs.omnidata.vision/starter_dataset.html)
-
-![](./assets/starter_dataset.png)
-
-We provide a [`Starter Dataset`](https://docs.omnidata.vision/starter_dataset.html) generated by Omnidata Pipeline from some existing 3D datasets. It contains more than **14 million images** from over **2000 spaces** with **21 different mid-level vision cues** per image. The dataset covers very diverse scenes (indoors and outdoors) and views (scene- and object-centric).
-
-In order to download the dataset, please refer to the [download page](https://docs.omnidata.vision/starter_dataset_download.html). You can also check out a small sample of the data from a signle random building in [here](https://docs.omnidata.vision/starter_dataset.html#Sample-Data).
-
-# [Omnidata Documentation](https://docs.omnidata.vision)
-We provice a detailed [`documentation`](https://docs.omnidata.vision) for everything that we open-sourced from the paper, including downloading and usage of [starter data](https://docs.omnidata.vision/starter_dataset.html), using the [annotator](https://docs.omnidata.vision/annotator_usage.html), [training code](https://docs.omnidata.vision/training.html) and [pretrained models](https://docs.omnidata.vision/pretrained.html).
+<br>
 
 
-# [Omnidata Paper Code (not for reuse)](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/paper_code)
-[`Paper Code`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools) contains a code dump of all the code used in the paper. **This code is not for reuse**. [`Omnidata-tools`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools) contains the code to train you own models on Omnidata.
+#### Install just CLI tools (`omnitools`)
+If you are only interested in using the [CLI tools](/omnidata-tools/omnitools.html), you can install them with: `pip install omnidata-tools`. This might be preferable if you only want to quickly download the starter data, or if you just want a simple way to manipulate the vision datasets output by the annotator.
 
-# Citation
-If you find the code, dataset, or models useful, please cite the paper:
-```
-@inproceedings{eftekhar2021omnidata,
-  title={Omnidata: A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets From 3D Scans},
-  author={Eftekhar, Ainaz and Sax, Alexander and Malik, Jitendra and Zamir, Amir},
-  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
-  pages={10786--10796},
-  year={2021}
-}
-```
+_Note:_ The annotator can also be used with a [docker-based](/omnidata-tools/annotator_usage.html) CLI, but you don't need to use the annotator to use the starter dataset, pretrained models, or training code.
+
+
+<br>
+
+
+> ...were you looking for the [research paper](//omnidata.vision/#paper) or [project website](//omnidata.vision)? 
+
+<!-- <img src="https://raw.githubusercontent.com/alexsax/omnidata-tools/main/docs/images/omnidata_front_page.jpg?token=ABHLE3LC3U64F2QRVSOBSS3BPED24" alt="Website main page" style='max-width: 100%;'/> -->

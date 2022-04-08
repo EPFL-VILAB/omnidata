@@ -5,4 +5,6 @@ __pycache__
 /conda
 /dist
 /omnidata_tools.egg-info
+*.ckpt
+*.pth
 

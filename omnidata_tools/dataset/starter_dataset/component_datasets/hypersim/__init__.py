@@ -10,7 +10,7 @@ from ..splits import get_splits, get_all_spaces
 ###############################################################################
 split_file = os.path.join(os.path.dirname(__file__), 'train_val_test_hypersim.csv')
 split_to_spaces = get_splits(split_file)
-subset_to_spaces = {'debug': ['ai_052_001'], 'fullplus': get_all_spaces(split_to_spaces) }
+# subset_to_spaces = {'debug': ['ai_052_001'], 'fullplus': get_all_spaces(split_to_spaces) }
 
 ###############################################################################
 #  Semantic segmentation:

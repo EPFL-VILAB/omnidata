@@ -99,7 +99,7 @@ def validate_checksums_exist(models):
 
 def filter_models(models, domains, subset, split, components, component_to_split, component_to_subset):
   # for m in models:
-  #   if m.component_name.lower() == 'hm3d':
+  #   if m.component_name.lower() == 'hypersim':
   #     notice(f'{m.component_name} [{m.domain}]')
   #     print(components, domains)
   #     print(m.component_name.lower() in components)
@@ -212,7 +212,7 @@ def untar(fpath, model, dest=None, ignore_existing=True,
 @call_parse
 def download(
   domains:     Param("Domains to download (comma-separated or 'all')", str, nargs='+'),
-  subset:      Param("Subset to download", str, choices=['debug', 'tiny', 'medium', 'full', 'fullplus'])='debug',
+  subset:      Param("Subset to download", str, choices=['all', 'debug', 'tiny', 'medium', 'full', 'fullplus'])='debug',
   split:       Param("Split to download", str, choices=['train', 'val', 'test', 'all'])='all',
   components:  Param("Component datasets to download (comma-separated)", str, nargs='+',
     choices=['all','replica','taskonomy','replica_gso','hypersim','blendedmvg','hm3d','clevr_simple','clevr_complex'])='all',

@@ -44,11 +44,78 @@ pip install -r requirements.txt
 <li>Surface Normal Prediction:<ul>
 <li>New model is based on DPT architecture.</li>
 <li><a href="https://arxiv.org/pdf/2109.08238.pdf">Habitat-Matterport 3D Dataset (HM3D)</a> is added to the training data.</li>
-<li>1 week of training with 2D and <a href="https://arxiv.org/pdf/2203.01441.pdf">3D data augmentations</a> and 1 week of training with <a href="https://arxiv.org/pdf/2006.04096.pdf">cross-task consistency</a> </li>
+<li>1 week of training with 2D and <a href="https://arxiv.org/pdf/2203.01441.pdf">3D data augmentations</a> and 1 week of training with [cross-task consistency (<a href="https://arxiv.org/pdf/2006.04096.pdf">https://arxiv.org/pdf/2006.04096.pdf</a>) </li>
 </ul>
 </li>
 </ul>
-<ul>
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th></th>
+    <th colspan="2">Angular Error</th>
+    <th colspan="3">% Within t</th>
+    <th colspan="2">Relative Normal</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td> Method</td>
+    <td align="center">Training Data</td>
+    <td align="center">Mean</td>
+    <td align="center">Median</td>
+    <td align="center">11.25</td>
+    <td align="center">22.5</td>
+    <td align="center">30</td>
+    <td align="center">AUC_o</td>
+    <td align="center">AUC_p</td>
+  </tr>
+  <tr>
+    <td>Hourglass</td>
+    <td align="center">OASIS</td>
+      <td align="center"><b>23.91</b></td>
+    <td align="center">18.16</td>
+      <td align="center"><b>31.23</b></td>
+    <td align="center">59.45</td>
+    <td align="center">71.77</td>
+    <td align="center">0.5913</td>
+    <td align="center">0.5786</td>
+  </tr>
+  <tr>
+    <td>UNet (v1)</td>
+    <td align="center">Omnidata</td>
+    <td align="center">24.87</td>
+      <td align="center"><b>18.04</b></td>
+      <td align="center">31.02</td>
+    <td align="center">59.53<br></td>
+    <td align="center">71.37</td>
+      <td align="center"><b>0.6692</b></td>
+    <td align="center">0.6758</td>
+  </tr>
+  <tr>
+    <td>DPT (v2)</td>
+    <td align="center">Omnidata</td>
+    <td align="center">24.16</td>
+    <td align="center">18.23</td>
+    <td align="center">27.71</td>
+      <td align="center"><b>60.95</b><br></td>
+      <td align="center"><b>74.15</b></td>
+    <td align="center">0.6646</td>
+      <td align="center"><b>0.7261</b></td>
+  </tr>
+  <tr>
+    <td><b>Human (Approx.)</b></td>
+    <td align="center"><b>-</b></td>
+    <td align="center"><b>17.27</b></td>
+    <td align="center"><b>12.92</b></td>
+    <td align="center"><b>44.36</b></td>
+    <td align="center"><b>76.16</b></td>
+    <td align="center"><b>85.24</b></td>
+    <td align="center"><b>0.8826</b></td>
+    <td align="center">0.6514</td>
+  </tr>
+</tbody>
+</table><ul>
 <li>Depth Prediction:<ul>
 <li><a href="https://arxiv.org/pdf/2109.08238.pdf">Habitat-Matterport 3D Dataset (HM3D)</a> and 5 <a href="https://github.com/isl-org/MiDaS">MiDaS</a> dataset components (RedWebDataset, HRWSIDataset, MegaDepthDataset, TartanAirDataset, BlendedMVS) are added to the training data.</li>
 <li>1 week of training with 2D and <a href="https://arxiv.org/pdf/2203.01441.pdf">3D data augmentations</a> and 1 week of training with <a href="https://arxiv.org/pdf/2006.04096.pdf">cross-task consistency</a></li>

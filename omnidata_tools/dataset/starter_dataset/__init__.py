@@ -45,7 +45,8 @@ class TaskonomyMetadata(RemoteBucketStorageMetadata):
     model_name, *domain = fname.split('_')
     if len(domain) == 0:  raise ValueError(f'Domain name in {fname} has 0 length after model.')  
     domain = "_".join(domain)
-    return ZippedModel(component_name=component_name, domain=domain, model_name=model_name, url=url, tar_structure=self.tar_structure, checksum=self.checksum(url))
+    tar_structure = ('domain', 'component_name', 'model_name') if domain == 'fragments' else self.tar_structure
+    return ZippedModel(component_name=component_name, domain=domain, model_name=model_name, url=url, tar_structure=tar_structure, checksum=self.checksum(url))
 
 STARTER_DATASET_REMOTE_SERVER_METADATAS = [
   OmnidataMetadata( base_url='https://datasets.epfl.ch/omnidata/', expected_suffix='.tar'),

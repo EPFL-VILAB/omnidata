@@ -275,7 +275,8 @@ def download(
       dest_fpath = os.path.join(dest, *[getattr(model, a) for a in output_structure])
       _, tar_fpath = get_tar_fname_and_fpath(model.url, output_dir=dest_compressed, output_name=model.fname)
       if os.path.exists(dest_fpath) and (not os.path.exists(tar_fpath)) and ignore_existing: notice(f'"{dest_fpath}" already has some files... skipping re-download. If this behavior is undesired, delete or move this folder'); return
-      tar_fpath = download_tar(
+      if not os.path.exists(tar_fpath):
+        tar_fpath = download_tar(
                   model.url, output_dir=dest_compressed, output_name=model.fname, 
                   checksum=None if ignore_checksum else model.checksum,
                   n=connections_total, n_per_server=connections_per_server_per_download,

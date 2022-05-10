@@ -37,9 +37,91 @@ conda create -n testenv -y <span class="nv">python</span><span class="o">=</span
 <span class="nb">source</span> activate testenv
 pip install -r requirements.txt
 </pre></div>
-<p>You can see the complete list of required packages in <a href="https://github.com/EPFL-VILAB/omnidata/blob/main/requirements.txt">omnidata-tools/torch/requirements.txt</a>. We recommend using virtualenv for the installation.</p>
+<p>You can see the complete list of required packages in <a href="https://github.com/EPFL-VILAB/omnidata/blob/main/omnidata_tools/torch/requirements.txt">omnidata-tools/torch/requirements.txt</a>. We recommend using virtualenv for the installation.</p>
 <h2 id="Pretrained-Models">Pretrained Models<a class="anchor-link" href="#Pretrained-Models"> </a></h2><p>You can download our pretrained models for surface normal estimation and depth estimation. For each task there are two versions of the models--a V1 used in the paper, and a stronger V2 released in March 2022.</p>
-<h3 id="Network-Architecture">Network Architecture<a class="anchor-link" href="#Network-Architecture"> </a></h3><h4 id="Version-2-models-(stronger-than-V1)">Version 2 models (stronger than V1)<a class="anchor-link" href="#Version-2-models-(stronger-than-V1)"> </a></h4><p>These are DPT architectures trained for</p>
+<h3 id="Network-Architecture">Network Architecture<a class="anchor-link" href="#Network-Architecture"> </a></h3><h4 id="Version-2-models-(stronger-than-V1)">Version 2 models (stronger than V1)<a class="anchor-link" href="#Version-2-models-(stronger-than-V1)"> </a></h4><p>These are DPT architectures trained on more data using both <a href="https://3dcommoncorruptions.epfl.ch">3D Data Augmentations</a> and <a href="https://consistency.epfl.ch">Cross-Task Consistency</a>. Here's the list of updates in Version 2 models:</p>
+<ul>
+<li>Surface Normal Prediction:<ul>
+<li>New model is based on DPT architecture.</li>
+<li><a href="https://aihabitat.org/datasets/hm3d/">Habitat-Matterport 3D Dataset (HM3D)</a> is added to the training data.</li>
+<li>1 week of training with 2D and <a href="https://3dcommoncorruptions.epfl.ch">3D data augmentations</a> and 1 week of training with <a href="https://consistency.epfl.ch">cross-task consistency</a>. </li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+  <tr>
+    <th></th>
+    <th></th>
+    <th colspan="2">Angular Error</th>
+    <th colspan="3">% Within t</th>
+    <th colspan="2">Relative Normal</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td> Method</td>
+    <td align="center">Training Data</td>
+    <td align="center">Mean</td>
+    <td align="center">Median</td>
+    <td align="center">11.25</td>
+    <td align="center">22.5</td>
+    <td align="center">30</td>
+    <td align="center">AUC_o</td>
+    <td align="center">AUC_p</td>
+  </tr>
+  <tr>
+    <td>Hourglass</td>
+    <td align="center">OASIS</td>
+      <td align="center"><b>23.91</b></td>
+    <td align="center">18.16</td>
+      <td align="center"><b>31.23</b></td>
+    <td align="center">59.45</td>
+    <td align="center">71.77</td>
+    <td align="center">0.5913</td>
+    <td align="center">0.5786</td>
+  </tr>
+  <tr>
+    <td>UNet (v1)</td>
+    <td align="center">Omnidata</td>
+    <td align="center">24.87</td>
+      <td align="center"><b>18.04</b></td>
+      <td align="center">31.02</td>
+    <td align="center">59.53<br></td>
+    <td align="center">71.37</td>
+      <td align="center"><b>0.6692</b></td>
+    <td align="center">0.6758</td>
+  </tr>
+  <tr>
+    <td>DPT (v2)</td>
+    <td align="center">Omnidata</td>
+    <td align="center">24.16</td>
+    <td align="center">18.23</td>
+    <td align="center">27.71</td>
+      <td align="center"><b>60.95</b><br></td>
+      <td align="center"><b>74.15</b></td>
+    <td align="center">0.6646</td>
+      <td align="center"><b>0.7261</b></td>
+  </tr>
+  <tr>
+    <td><b>Human (Approx.)</b></td>
+    <td align="center"><b>-</b></td>
+    <td align="center"><b>17.27</b></td>
+    <td align="center"><b>12.92</b></td>
+    <td align="center"><b>44.36</b></td>
+    <td align="center"><b>76.16</b></td>
+    <td align="center"><b>85.24</b></td>
+    <td align="center"><b>0.8826</b></td>
+    <td align="center">0.6514</td>
+  </tr>
+</tbody>
+</table><ul>
+<li>Depth Prediction:<ul>
+<li><a href="https://aihabitat.org/datasets/hm3d/">Habitat-Matterport 3D Dataset (HM3D)</a> and 5 <a href="https://github.com/isl-org/MiDaS">MiDaS</a> dataset components (RedWebDataset, HRWSIDataset, MegaDepthDataset, TartanAirDataset, BlendedMVS) are added to the training data.</li>
+<li>1 week of training with 2D and <a href="https://3dcommoncorruptions.epfl.ch">3D data augmentations</a> and 1 week of training with <a href="https://consistency.epfl.ch">cross-task consistency</a>.</li>
+</ul>
+</li>
+</ul>
 <h4 id="Version-1-models">Version 1 models<a class="anchor-link" href="#Version-1-models"> </a></h4><p>The surface normal network is based on the <a href="https://arxiv.org/pdf/1505.04597.pdf">UNet</a> architecture (6 down/6 up). It is trained with both angular and L1 loss and input resolutions between 256 and 512.</p>
 <p>The depth networks have DPT-based architectures (similar to <a href="https://github.com/isl-org/MiDaS">MiDaS v3.0</a>) and are trained with scale- and shift-invariant loss and scale-invariant gradient matching term introduced in <a href="https://arxiv.org/pdf/1907.01341v3.pdf">MiDaS</a>, and also <a href="https://openaccess.thecvf.com/content_ICCV_2019/papers/Yin_Enforcing_Geometric_Constraints_of_Virtual_Normal_for_Depth_Prediction_ICCV_2019_paper.pdf">virtual normal loss</a>. You can see a public implementation of the MiDaS loss <a href="#midas-implementation">here</a>. We provide 2 pretrained depth models for both DPT-hybrid and DPT-large architectures with input resolution 384.</p>
 <h4 id="Download-pretrained-models">Download pretrained models<a class="anchor-link" href="#Download-pretrained-models"> </a></h4><div class="highlight"><pre><span></span>sh ./tools/download_depth_models.sh
@@ -119,5 +201,5 @@ sh ./tools/download_surface_normal_models.sh
 </div>
 </div>
 </div>
- 
+
 

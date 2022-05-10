@@ -20,12 +20,6 @@ from modules.midas.dpt_depth import DPTDepthModel
 from data.transforms import get_transform
 
 
-def depth_to_heatmap(img):   
-    img = (img - np.min(img)) / np.ptp(img)
-    cm = plt.get_cmap('viridis', 2**16)
-    pixel_colored = np.uint8(np.rint(cm(img) * 255))[:, :, :3]
-    return pixel_colored
-
 parser = argparse.ArgumentParser(description='Visualize output for depth or surface normals')
 
 parser.add_argument('--task', dest='task', help="normal or depth")
@@ -51,6 +45,8 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 # get target task and model
 if args.task == 'normal':
     image_size = 384
+    
+    ## Version 1 model
     # pretrained_weights_path = root_dir + 'omnidata_unet_normal_v1.pth'
     # model = UNet(in_channels=3, out_channels=3)
     # checkpoint = torch.load(pretrained_weights_path, map_location=map_location)
@@ -61,6 +57,8 @@ if args.task == 'normal':
     #         state_dict[k.replace('model.', '')] = v
     # else:
     #     state_dict = checkpoint
+    
+    
     pretrained_weights_path = root_dir + 'omnidata_dpt_normal_v2.ckpt'
     model = DPTDepthModel(backbone='vitb_rn50_384', num_channels=3) # DPT Hybrid
     checkpoint = torch.load(pretrained_weights_path, map_location=map_location)
@@ -79,7 +77,7 @@ if args.task == 'normal':
 
 elif args.task == 'depth':
     image_size = 384
-    pretrained_weights_path = root_dir + 'omnidata_dpt_depth_v2.ckpt'
+    pretrained_weights_path = root_dir + 'omnidata_dpt_depth_v2.ckpt'  # 'omnidata_dpt_depth_v1.ckpt'
     # model = DPTDepthModel(backbone='vitl16_384') # DPT Large
     model = DPTDepthModel(backbone='vitb_rn50_384') # DPT Hybrid
     checkpoint = torch.load(pretrained_weights_path, map_location=map_location)
@@ -104,30 +102,54 @@ trans_rgb = transforms.Compose([transforms.Resize(512, interpolation=PIL.Image.B
                                 transforms.CenterCrop(512)])
 
 
+def standardize_depth_map(img, mask_valid=None, trunc_value=0.1):
+    if mask_valid is not None:
+        img[~mask_valid] = torch.nan
+    sorted_img = torch.sort(torch.flatten(img))[0]
+    # Remove nan, nan at the end of sort
+    num_nan = sorted_img.isnan().sum()
+    if num_nan > 0:
+        sorted_img = sorted_img[:-num_nan]
+    # Remove outliers
+    trunc_img = sorted_img[int(trunc_value * len(sorted_img)): int((1 - trunc_value) * len(sorted_img))]
+    trunc_mean = trunc_img.mean()
+    trunc_var = trunc_img.var()
+    eps = 1e-6
+    # Replace nan by mean
+    img = torch.nan_to_num(img, nan=trunc_mean)
+    # Standardize
+    img = (img - trunc_mean) / torch.sqrt(trunc_var + eps)
+    return img
+
+
 def save_outputs(img_path, output_file_name):
-    save_path = os.path.join(args.output_path, f'{output_file_name}_{args.task}.png')
+    with torch.no_grad():
+        save_path = os.path.join(args.output_path, f'{output_file_name}_{args.task}.png')
 
-    print(f'Reading input {img_path} ...')
-    img = Image.open(img_path)
+        print(f'Reading input {img_path} ...')
+        img = Image.open(img_path)
 
-    img_tensor = trans_totensor(img)[:3].unsqueeze(0).to(device)
+        img_tensor = trans_totensor(img)[:3].unsqueeze(0).to(device)
 
-    rgb_path = os.path.join(args.output_path, f'{output_file_name}_rgb.png')
-    trans_rgb(img).save(rgb_path)
+        rgb_path = os.path.join(args.output_path, f'{output_file_name}_rgb.png')
+        trans_rgb(img).save(rgb_path)
 
-    if img_tensor.shape[1] == 1:
-        img_tensor = img_tensor.repeat_interleave(3,1)
+        if img_tensor.shape[1] == 1:
+            img_tensor = img_tensor.repeat_interleave(3,1)
 
-    output = model(img_tensor).clamp(min=0, max=1)
+        output = model(img_tensor).clamp(min=0, max=1)
 
-    if args.task == 'depth':
-        output = F.interpolate(output.unsqueeze(0), (512, 512), mode='bicubic').squeeze(0)
-        output = 1 / (output + 1e-6)
-        output = torch.tensor(depth_to_heatmap(output.detach().cpu().squeeze().numpy())).permute(2,0,1).unsqueeze(0)
-        output = (output - output.min()) / (output.max() - output.min())
-
-    trans_topil(output[0]).save(save_path)
-    print(f'Writing output {save_path} ...')
+        if args.task == 'depth':
+            output = F.interpolate(output.unsqueeze(0), (512, 512), mode='bicubic').squeeze(0)
+            output = output.clamp(0,1)
+            output = 1 - output
+#             output = standardize_depth_map(output)
+            plt.imsave(save_path, output.detach().cpu().squeeze(),cmap='viridis')
+            
+        else:
+            trans_topil(output[0]).save(save_path)
+            
+        print(f'Writing output {save_path} ...')
 
 
 img_path = Path(args.img_path)

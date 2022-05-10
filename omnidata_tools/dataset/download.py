@@ -1,7 +1,7 @@
 import aria2p
 import multiprocess as mp
 from functools import partial
-import atexit, os, signal, shutil, tempfile, time
+import atexit, os, signal, shutil, tempfile, time, glob
 from   subprocess import call, run, Popen, check_output
 import tarfile
 from tarfile import ReadError
@@ -205,7 +205,11 @@ def untar(fpath, model, dest=None, ignore_existing=True,
     if dryrun: print(f'Extracting "{fpath}"" to "{tmpdirname}" and moving "{src_fpath}" to "{dest_fpath}"'); return
     with tarfile.open(fpath) as tar:
       tar.extractall(path=tmpdirname)
-    shutil.move(src_fpath, dest_fpath)
+    try:
+      shutil.move(src_fpath, dest_fpath)
+    except FileNotFoundError as e:
+      failure(glob.glob(os.path.join(src_fpath , '**', '*'), recursive=True))
+      raise e
 
 ##
 

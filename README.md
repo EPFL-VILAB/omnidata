@@ -10,6 +10,8 @@ _Ainaz Eftekhar*, Alexander Sax*, Roman Bachmann, Jitendra Malik, Amir Zamir_
  
 </div>
 
+---
+
 In addition to the presentation content above, we also provide a starter dataset, downloader and dataloader, pretrained models weights, all source code and a Docker. Links and explanations below:
 
 > **[Omnidata starter dataset](https://docs.omnidata.vision/starter_dataset.html):** comprised of 14 million viewpoint captures from over 2000 spaces with annotations for 21 different mid-level vision cues per image ([detailed statistics](https://docs.omnidata.vision/starter_dataset.html)). The dataset covers very diverse scenes (indoors and outdoors) and viewpoints (FoVs, scene- and object-centric). It builds on existing 3D datasets (Hypersim, Taskonomy, Replica, Google Scanned Objects, BlendedMVS, and some annotations are provided for CLEVR, too).

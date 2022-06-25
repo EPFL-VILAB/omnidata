@@ -11,9 +11,8 @@ In addition to the above, we also provide a starter dataset, downloader and data
 
 > **[Pretrained models](//github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch)** (depth, surface normals): try the models [online demo](//omnidata.vision/demo/) by uploading your own image--or download the [model weights](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch).
 
-> **[Dataset designer demo](https://omnidata.vision/designer/):** Try a demo to explore the impact of different data generation parameters
+> **[Annotator](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator):** we provide all [source code](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator) (requires Blender), and a standalone [Docker and tutorial](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator). Explore the impact of different data generation parameters with the [online dataset designer demo](https://omnidata.vision/designer/).
 
-> **[Annotator](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator):** we provide all source code (requires Blender), and a standalone [Docker and tutorial](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator).
 
 ---
 
@@ -46,6 +45,10 @@ omnitools.download rgb normals point_info \
   --subset debug \
   --dest ./omnidata_starter_dataset/ --agree-all
 ```
+
+
+#### How did you do <SOMETHING> in the paper?
+A code dump for the training and experiments, exactly as used in the paper, is [here](https://github.com/EPFL-VILAB/omnidata/tree/main/paper_code). This code is for reference--do not expect this code to run on your machine!
 
 <br>
 

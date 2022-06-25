@@ -1,9 +1,16 @@
-# Omnidata GitHub Documentation
-> <strong>Omnidata (i.e. steerable datasets) is a method of generating multi-modal multi-task computer vision datasets from 3D meshes</strong>: <br> [ [Main Website](https://omnidata.vision/) ] [ [Arxiv](https://arxiv.org/abs/2110.04994) ] -- [ Demos: <a href='//omnidata.vision/demo/'>Pretrained Models</a>  |  <a href='//omnidata.vision/designer/'>Dataset Designer</a> | <a href='//github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator'>Annotation Generation</a> ] 
+<div align="center">
 
-<br>
+# Omnidata (Steerable Datasets)
 
-In addition to the above, we also provide a starter dataset, downloader and dataloader, pretrained models weights, all source code and a Docker. Links and explanations are below:
+**<strong>A scalable pipeline for generating multi-modal vision datasets from 3D meshes</strong>**
+
+[`Main Website`](https://omnidata.vision) &centerdot; [`Paper`](https://arxiv.org/abs/2110.04994) &centerdot; [**`>> [GitHub] <<`**](//docs.omnidata.vision)  &centerdot; <it> [`Pretrained (online demo)`]('//omnidata.vision/demo/) &centerdot;  [`Data Generation (online demo)`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) &centerdot; [`Annotator Demo (docker)`](//github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator) </it>
+
+_Ainaz Eftekhar*, Alexander Sax*, Roman Bachmann, Jitendra Malik, Amir Zamir_
+ 
+</div>
+
+In addition to the presentation content above, we also provide a starter dataset, downloader and dataloader, pretrained models weights, all source code and a Docker. Links and explanations below:
 
 > **[Omnidata starter dataset](https://docs.omnidata.vision/starter_dataset.html):** comprised of 14 million viewpoint captures from over 2000 spaces with annotations for 21 different mid-level vision cues per image ([detailed statistics](https://docs.omnidata.vision/starter_dataset.html)). The dataset covers very diverse scenes (indoors and outdoors) and viewpoints (FoVs, scene- and object-centric). It builds on existing 3D datasets (Hypersim, Taskonomy, Replica, Google Scanned Objects, BlendedMVS, and some annotations are provided for CLEVR, too).
 
@@ -12,6 +19,8 @@ In addition to the above, we also provide a starter dataset, downloader and data
 > **[Pretrained models](//github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch)** (depth, surface normals): try the models [online demo](//omnidata.vision/demo/) by uploading your own image--or download the [model weights](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch).
 
 > **[Annotator](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator):** we provide all [source code](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator) (requires Blender), and a standalone [Docker and tutorial](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator). Explore the impact of different data generation parameters with the [online dataset designer demo](https://omnidata.vision/designer/).
+
+<br>
 
 
 ---

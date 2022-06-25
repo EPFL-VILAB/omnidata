@@ -16,7 +16,9 @@ In addition to the above, we also provide a starter dataset, downloader and data
 
 ---
 
+<br>
 
+## FAQ
 
 <br>
 
@@ -46,10 +48,21 @@ omnitools.download rgb normals point_info \
   --dest ./omnidata_starter_dataset/ --agree-all
 ```
 
+<br>
 
-#### How did you do <SOMETHING> in the paper?
+#### How did you do [X] in the paper?
 A code dump for the training and experiments, exactly as used in the paper, is [here](https://github.com/EPFL-VILAB/omnidata/tree/main/paper_code). This code is for reference--do not expect this code to run on your machine!
 
 <br>
 
+#### Citation
+```
+@inproceedings{eftekhar2021omnidata,
+  title={Omnidata: A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets From 3D Scans},
+  author={Eftekhar, Ainaz and Sax, Alexander and Malik, Jitendra and Zamir, Amir},
+  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages={10786--10796},
+  year={2021}
+}
+```
 <!-- <img src="https://raw.githubusercontent.com/alexsax/omnidata-tools/main/docs/images/omnidata_front_page.jpg?token=ABHLE3LC3U64F2QRVSOBSS3BPED24" alt="Website main page" style='max-width: 100%;'/> -->

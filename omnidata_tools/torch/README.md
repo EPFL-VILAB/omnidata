@@ -119,4 +119,14 @@ If you find the code or models useful, please cite our paper:
   pages={10786--10796},
   year={2021}
 }
+
+In case you use our latest pretrained models please also cite the following paper:
+```
+@inproceedings{kar20223d,
+  title={3D Common Corruptions and Data Augmentation},
+  author={Kar, O{\u{g}}uzhan Fatih and Yeo, Teresa and Atanov, Andrei and Zamir, Amir},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={18963--18974},
+  year={2022}
+}
 ```

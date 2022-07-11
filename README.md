@@ -3,7 +3,7 @@
 
 
 
-**This site is intended to be a wiki/documentation site for everything that we open-sourced from the paper.** There are three main folders: the annotator, utilities (dataloaders, download tools, pretrained models, etc), and a code dump of stuff from the paper that is just for reference. 
+**This site is intended to be a wiki/documentation site for everything that we open-sourced from the paper.** There are three main folders: [the annotator](omnidata_annotator/), [utilities](omnidata_tools/) (dataloaders, download tools, pretrained models, etc), and a [code dump](paper_code/) of stuff from the paper that is just for reference. 
 
 (Check out the main site for an overview of 'steerable datastes' and the 3D → 2D rendering pipeline).
 
@@ -15,7 +15,7 @@
 If you want to see and edit the code, then you can clone the github and install with: 
 
 ```bash
-git clone https://github.com/EPFL-VILAB/omnidata-tools
+git clone https://github.com/EPFL-VILAB/omnidata
 cd omnidata-tools
 pip install -e .    # this will install the python requirements (and also install the CLI)
 ```
@@ -25,9 +25,9 @@ This is probably the best option for you if you want to use the pretrained model
 
 
 #### Install just CLI tools (`omnitools`)
-If you are only interested in using the [CLI tools](/omnidata-tools/omnitools.html), you can install them with: `pip install omnidata-tools`. This might be preferable if you only want to quickly download the starter data, or if you just want a simple way to manipulate the vision datasets output by the annotator.
+If you are only interested in using the [CLI tools](https://docs.omnidata.vision/omnitools.html), you can install them with: `pip install omnidata-tools`. This might be preferable if you only want to quickly download the starter data, or if you just want a simple way to manipulate the vision datasets output by the annotator.
 
-_Note:_ The annotator can also be used with a [docker-based](/omnidata-tools/annotator_usage.html) CLI, but you don't need to use the annotator to use the starter dataset, pretrained models, or training code.
+_Note:_ The annotator can also be used with a [docker-based](https://docs.omnidata.vision/annotator_usage.html) CLI, but you don't need to use the annotator to use the starter dataset, pretrained models, or training code.
 
 
 <br>

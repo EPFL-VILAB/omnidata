@@ -1,5 +1,5 @@
 # Omnidata Docs
-> <strong>Quick links to docs</strong>: [ <a href='/omnidata-tools/pretrained.html'>Pretrained Models</a> ]  [ <a href='/omnidata-tools/starter_dataset.html'>Starter Dataset</a> ]  [ <a href='//omnidata-tools/annotator_usage.html'>Annotator Demo</a> ] 
+> <strong>Quick links to docs</strong>: [ <a href='https://docs.omnidata.vision/pretrained.html'>Pretrained Models</a> ]  [ <a href='https://docs.omnidata.vision/starter_dataset.html'>Starter Dataset</a> ]  [ <a href='https://docs.omnidata.vision/annotator_usage.html'>Annotator Demo</a> ] 
 
 
 

@@ -1,27 +1,22 @@
+Omnidata: _PyTorch Models and Dataloaders_
+=================
 
 <div align="center">
 
-# Omnidata (Steerable Datasets)
-**A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets from 3D Scans (ICCV 2021)**
 
   
-[`Project Website`](https://omnidata.vision) &centerdot; [`Paper`](https://arxiv.org/abs/2110.04994) &centerdot; [`Github`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) &centerdot; [`Data`](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/dataset#readme) &centerdot; [**`>> [PyTorch Utils + Weights] <<`**](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#readme) &centerdot;  [`Annotator`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_annotator#readme) &centerdot; 
+[`Project Website`](https://omnidata.vision) &centerdot; [`Paper`](https://arxiv.org/abs/2110.04994) &centerdot; [`Github`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) &centerdot; [`Data`](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/dataset#readme) &centerdot; [**`>> [PyTorch Utils + Weights] <<`**](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#readme) &centerdot;  [`Annotator`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_annotator#readme) 
+
+**Omnidata: A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets from 3D Scans (ICCV 2021)**
 
 </div>
 
 
 ---
 
-Omnidata Tools
-=================
-![](./assets/point_5.gif)
-You can download our pretrained models for surface normal estimation and depth estimation. For each task there are two versions of the models--a V1 used in the paper, and a stronger V2 released in March 2022.
+You can download our pretrained models for surface normal estimation and depth estimation. For each task there are two versions of the models--a V1 used in the paper, and a stronger V2 released in March 2022. 
 
-
-
-The repository contains some tools and code from our paper:
-**Omnidata: A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets from 3D Scans** (ICCV2021)
-It specifically contains utilities such as dataloader to efficiently load the generated data from the Omnidata annotator, pretrained models and code to train state-of-the-art models for tasks such as depth and surface normal estimation, including a first publicly available implementation for MiDaS training code. It also contains an implementation of the 3D image refocusing augmentation introduced in the paper.
+This repo also contains PyTorch dataloaders to load the starter dataset and other data generated from the Omnidata annotator, and code to train  monocular depth and surface normal estimation. It includes a first publicly available implementation for MiDaS training code. It also contains an implementation of the 3D image refocusing augmentation introduced in the paper.
 
 
 

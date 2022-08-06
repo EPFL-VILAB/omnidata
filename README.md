@@ -19,11 +19,11 @@ Table of Contents
 - Data 
     - [dataset info](https://docs.omnidata.vision/starter_dataset.html)
     - [download standardized portions of the dataset](#dataset)
-    - [configurable pytorch dataloaders](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch) (by data amount, by modality, can return meshes, multiview, and PyTorch3D camera parameters).
+    - [New Aug 2022] [configurable pytorch dataloaders](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch) (by data amount, by modality, can return meshes, multiview, and PyTorch3D camera parameters).
 - The Pipeline
-    - [online demo](https://omnidata.vision/designer/)
     - [generating more multi-view data](#create-multi-view-data-from-3d-mesh)
-- [Source for the above](https://github.com/EPFL-VILAB/omnidata#source-code)
+    - [online steerable dataset demo](https://omnidata.vision/designer/)
+- [Source for all above](https://github.com/EPFL-VILAB/omnidata#source-code)
 - [Paper code](https://github.com/EPFL-VILAB/omnidata/tree/main/paper_dump) ([#MiDaS loss](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#midas-implementation))
 - [Citing](https://github.com/EPFL-VILAB/omnidata/blob/main/README.md#citing)
 

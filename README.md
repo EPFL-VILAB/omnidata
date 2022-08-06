@@ -14,7 +14,7 @@ Table of Contents
 =================
 - Pretrained models
     - [online demo](https://omnidata.vision/demo/)
-    - [weights and demo](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#readme)
+    - [weights and pytorch demo](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#readme)
     - [training](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#training-state-of-the-art-models)
 - Data 
     - [download standardized portions of the dataset](#dataset)

@@ -19,7 +19,7 @@ Table of Contents
 - Data 
     - [dataset info](https://docs.omnidata.vision/starter_dataset.html)
     - [download standardized portions of the dataset](#dataset) **[Added [Hypersim](https://github.com/apple/ml-hypersim/issues/24) fix - Aug 2022]**
-    - [configurable pytorch dataloaders](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch) **[Added multiview 3D + cameras - Aug 2022]**
+    - [configurable pytorch dataloaders](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch) **[Added multiview, mesh, camera parameters - Aug 2022]**
 - The Pipeline
     - [generating more multi-view data](#create-multi-view-data-from-3d-mesh)
     - [online steerable dataset demo](https://omnidata.vision/designer/)

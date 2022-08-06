@@ -18,8 +18,8 @@ Table of Contents
     - [training](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#training-state-of-the-art-models)
 - Data 
     - [dataset info](https://docs.omnidata.vision/starter_dataset.html)
-    - [download components of the dataset](#dataset)
-    - [dataloaders for all modalities, camera parameters, multiview](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch) (dataloaders respect tiny/medium/fullplus splits)
+    - [download standardized portions of the dataset](#dataset)
+    - [configurable pytorch dataloaders](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch) (by data amount, by modality, can return meshes, multiview, and PyTorch3D camera parameters).
 - The Pipeline
     - [online demo](https://omnidata.vision/designer/)
     - [generating more multi-view data](#create-multi-view-data-from-3d-mesh)

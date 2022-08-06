@@ -17,7 +17,7 @@ Table of Contents
     - [weights and pytorch demo](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#readme) **[Updated Transormer models - Mar 2022]**
     - [training](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#training-state-of-the-art-models)
 - Data 
-    - [dataset info](https://docs.omnidata.vision/starter_dataset.html)
+    - [dataset info](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/dataset#readme)
     - [download standardized portions of the dataset](#dataset) **[Added [Hypersim](https://github.com/apple/ml-hypersim/issues/24) fix - Aug 2022]**
     - [configurable pytorch dataloaders](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch) **[Added multiview, mesh, camera parameters - Aug 2022]**
 - The Pipeline

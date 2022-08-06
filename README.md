@@ -17,6 +17,7 @@ Table of Contents
     - [weights and pytorch demo](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#readme)
     - [training](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#training-state-of-the-art-models)
 - Data 
+    - [dataset statistics](https://docs.omnidata.vision/starter_dataset.html)
     - [download standardized portions of the dataset](#dataset)
     - [dataloaders for it](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch)
 - The Pipeline

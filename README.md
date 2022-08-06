@@ -1,38 +1,101 @@
-# Omnidata Docs
-> <strong>Quick links to docs</strong>: [ <a href='https://docs.omnidata.vision/pretrained.html'>Pretrained Models</a> ]  [ <a href='https://docs.omnidata.vision/starter_dataset.html'>Starter Dataset</a> ]  [ <a href='https://docs.omnidata.vision/annotator_usage.html'>Annotator Demo</a> ] 
+<div align="center">
+
+# Omnidata (Steerable Datasets)
+**A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets from 3D Scans (ICCV 2021)**
+
+  
+[`Project Website`](https://omnidata.vision) &centerdot; [`Paper`](https://arxiv.org/abs/2110.04994) &centerdot; [**`>> [Github] <<`**](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) &centerdot; [`Docs`](//docs.omnidata.vision) &centerdot; [`Annotator`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_annotator#readme) &centerdot; [`Starter Data`](//docs.omnidata.vision/starter_dataset.html) &centerdot;  
+
+</div>
+
+---
+
+Table of Contents
+=================
+
+- [Pretrained models](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#readme)
+- [Dataset](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch), [dataloaders](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch)
+- [Training code](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch) ([#MiDaS loss](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#midas-implementation))
+- [Generating 2D data from 3D data](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator#quickstart-run-demo)
+- Citing
 
 
 
-**This site is intended to be a wiki/documentation site for everything that we open-sourced from the paper.** There are three main folders: [the annotator](omnidata_annotator/), [utilities](omnidata_tools/) (dataloaders, download tools, pretrained models, etc), and a [code dump](paper_code/) of stuff from the paper that is just for reference. 
+### Run our models on your own image
+After downloading the [pretrained models](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#pretrained-models), run the following with with `TASK=normal` or `TASK=depth`:
+```bash
+python demo.py --task $TASK --img_path $PATH_TO_IMAGE_OR_FOLDER --output_path $PATH_TO_SAVE_OUTPUT
+```
+|  |   |   |   |  |  |  |
+| :-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
+| ![](./omnidata_tools/torch/assets/demo/test1.png) | ![](./omnidata_tools/torch/assets/demo/test2.png) |![](./omnidata_tools/torch/assets/demo/test3.png) | ![](./omnidata_tools/torch/assets/demo/test4.png) | ![](./omnidata_tools/torch/assets/demo/test5.png) |![](./omnidata_tools/torch/assets/demo/test7.png) |![](./omnidata_tools/torch/assets/demo/test9.png) |
+| ![](./omnidata_tools/torch/assets/demo/test1_normal.png) | ![](./omnidata_tools/torch/assets/demo/test2_normal.png) |![](./omnidata_tools/torch/assets/demo/test3_normal.png) | ![](./omnidata_tools/torch/assets/demo/test4_normal.png) | ![](./omnidata_tools/torch/assets/demo/test5_normal.png) | ![](./omnidata_tools/torch/assets/demo/test7_normal.png) | ![](./omnidata_tools/torch/assets/demo/test9_normal.png) |
+| ![](./omnidata_tools/torch/assets/demo/test1_depth.png) | ![](./omnidata_tools/torch/assets/demo/test2_depth.png) | ![](./omnidata_tools/torch/assets/demo/test3_depth.png) | ![](./omnidata_tools/torch/assets/demo/test4_depth.png) | ![](./omnidata_tools/torch/assets/demo/test5_depth.png) | ![](./omnidata_tools/torch/assets/demo/test7_depth.png) | ![](./omnidata_tools/torch/assets/demo/test9_depth.png)
 
-(Check out the main site for an overview of 'steerable datastes' and the 3D → 2D rendering pipeline).
 
+## Dataset
+Download subsets of the dataset from the paper with our downloader utility. Man docs available [here](https://docs.omnidata.vision/starter_dataset_download.html).
+```bash
+conda install -c conda-forge aria2
+pip install 'omnidata-tools'
+
+omnitools.download point_info rgb depth_euclidean mask_valid fragments \
+    --components replica taskonomy \
+    --subset debug \
+    --dest ./omnidata_starter_dataset/ \
+    --name YOUR_NAME --email YOUR_EMAIL --agree_all
+```
+
+
+## Generating 2D data from 3D data
+You can use the CLI [here](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator#readme)
+```bash
+git clone https://github.com/Ainaz99/omnidata-annotator # Generation scripts
+docker pull ainaz99/omnidata-annotator:latest           # Includes Blender, Meshlab, other libs
+docker run -ti --rm -v PATH_TO_ANNOTATOR:/annotator -v PATH_TO_3D_MODEL:/model ainaz99/omnidata-annotator:latest
+```
 
 
 <br>
 
-#### Download the code
-If you want to see and edit the code, then you can clone the github and install with: 
-
+## Training code
+- The folder [omnidata_tools/](omnidata_tools/) contains Pytorch dataloaders, download tools, code to run the pretrained models, etc). 
+- The [paper_code/](paper_code/) contains a code dump for reference.
 ```bash
 git clone https://github.com/EPFL-VILAB/omnidata
-cd omnidata-tools
-pip install -e .    # this will install the python requirements (and also install the CLI)
+cd omnidata_tools/torch # PyTorch code for configurable Omnidata dataloaders, scripts for training, demo of trained models
+cd omnidata_tools       # Code for downloader utility above, what's installed by: `pip install 'omnidata-tools'`
+cd omnidata_annotator   # Annotator code. Docker CLI above
+cd paper_code           # Reference
+
 ```
-This is probably the best option for you if you want to use the pretrained models, dataloaders, etc in other work.
 
 <br>
 
 
-#### Install just CLI tools (`omnitools`)
-If you are only interested in using the [CLI tools](https://docs.omnidata.vision/omnitools.html), you can install them with: `pip install omnidata-tools`. This might be preferable if you only want to quickly download the starter data, or if you just want a simple way to manipulate the vision datasets output by the annotator.
-
-_Note:_ The annotator can also be used with a [docker-based](https://docs.omnidata.vision/annotator_usage.html) CLI, but you don't need to use the annotator to use the starter dataset, pretrained models, or training code.
 
 
 <br>
 
-
-> ...were you looking for the [research paper](//omnidata.vision/#paper) or [project website](//omnidata.vision)? 
-
+## Citing
+```
+@inproceedings{eftekhar2021omnidata,
+  title={Omnidata: A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets From 3D Scans},
+  author={Eftekhar, Ainaz and Sax, Alexander and Malik, Jitendra and Zamir, Amir},
+  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages={10786--10796},
+  year={2021}
+}
+```
+In case you use our latest pretrained models please also cite the following paper:
+```
+@inproceedings{kar20223d,
+  title={3D Common Corruptions and Data Augmentation},
+  author={Kar, O{\u{g}}uzhan Fatih and Yeo, Teresa and Atanov, Andrei and Zamir, Amir},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={18963--18974},
+  year={2022}
+}
+```
 <!-- <img src="https://raw.githubusercontent.com/alexsax/omnidata-tools/main/docs/images/omnidata_front_page.jpg?token=ABHLE3LC3U64F2QRVSOBSS3BPED24" alt="Website main page" style='max-width: 100%;'/> -->
+> ...were you looking for the [research paper](//omnidata.vision/#paper) or [project website](//omnidata.vision)? 

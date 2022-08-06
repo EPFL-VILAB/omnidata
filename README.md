@@ -12,10 +12,14 @@
 
 Table of Contents
 =================
-
-- [Pretrained models](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#readme)
-- [Dataset from paper](#dataset), [dataloaders for it](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch)
-- [Generating 2D data from 3D data](#multi-view-data-from-3D-mesh)
+- Pretrained models
+    - [online demo](https://omnidata.vision/demo/)
+    - [weights and demo](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#readme)
+    - [training](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#training-state-of-the-art-models)
+- Data 
+    - [download standardized portions of the dataset](#dataset)
+    - [dataloaders for it](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch)
+    - [generating more multi-view data](#create-multi-view-data-from-3d-mesh)
 - [Source for the above](https://github.com/EPFL-VILAB/omnidata#source-code)
 - [Paper code](https://github.com/EPFL-VILAB/omnidata/tree/main/paper_dump) ([#MiDaS loss](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#midas-implementation))
 - [Citing](https://github.com/EPFL-VILAB/omnidata/blob/main/README.md#citing)
@@ -24,7 +28,7 @@ Table of Contents
 
 
 ### Pretrained models
-[download script and code](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#pretrained-models):
+Here is an [online demo](https://omnidata.vision/demo/) where you can upload your own images (1 per CAPTCHA). You can [download weights and code](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#pretrained-models):
 ```bash
 python demo.py --task depth --img_path $PATH_TO_IMAGE_OR_FOLDER --output_path $PATH_TO_SAVE_OUTPUT    # or TASK=normal
 ```
@@ -50,7 +54,7 @@ The tool can download different subsets. Documentation [here](https://docs.omnid
 
 
 
-## Multi-view data from 3D mesh
+### create multi-view data from 3D mesh
 ```bash
 git clone https://github.com/Ainaz99/omnidata-annotator # Generation scripts
 docker pull ainaz99/omnidata-annotator:latest           # Includes Blender, Meshlab, other libs
@@ -67,8 +71,6 @@ Documentation and a tutorial [here](https://github.com/EPFL-VILAB/omnidata/tree/
 <br>
 
 ## Source code
-- The folder [omnidata_tools/](omnidata_tools/) contains Pytorch dataloaders, download tools, code to run the pretrained models, etc). 
-- The [paper_code/](paper_code/) contains a code dump for reference.
 ```bash
 git clone https://github.com/EPFL-VILAB/omnidata
 cd omnidata_tools/torch # PyTorch code for configurable Omnidata dataloaders, scripts for training, demo of trained models

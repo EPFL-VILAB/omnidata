@@ -44,11 +44,13 @@ pip install -r requirements.txt
 ```
 
 ## Pretrained Models
-We are providing our pretrained models which have state-of-the-art performance in depth and surface normal estimation.
+The depth and surface normal estimation networks were state-of-the-art when trained them. Here is an [online demo](https://omnidata.vision/demo/) where you can upload your own images (1 per CAPTCHA).
+
 #### Network Architecture
+The depth networks have DPT-based architectures (similar to [MiDaS v3.0](https://github.com/isl-org/MiDaS)) and are trained with scale- and shift-invariant loss and scale-invariant gradient matching term introduced in [MiDaS](https://arxiv.org/pdf/1907.01341v3.pdf), and also [virtual normal loss](https://openaccess.thecvf.com/content_ICCV_2019/papers/Yin_Enforcing_Geometric_Constraints_of_Virtual_Normal_for_Depth_Prediction_ICCV_2019_paper.pdf). You can see a public implementation of the MiDaS loss [here](#midas-implementation). We provide 2 pretrained depth models for both DPT-hybrid and DPT-large architectures with input resolution 384.
+
 The surface normal network is based on the [UNet](https://arxiv.org/pdf/1505.04597.pdf) architecture (6 down/6 up). It is trained with both angular and L1 loss and input resolutions between 256 and 512.
 
-The depth networks have DPT-based architectures (similar to [MiDaS v3.0](https://github.com/isl-org/MiDaS)) and are trained with scale- and shift-invariant loss and scale-invariant gradient matching term introduced in [MiDaS](https://arxiv.org/pdf/1907.01341v3.pdf), and also [virtual normal loss](https://openaccess.thecvf.com/content_ICCV_2019/papers/Yin_Enforcing_Geometric_Constraints_of_Virtual_Normal_for_Depth_Prediction_ICCV_2019_paper.pdf). You can see a public implementation of the MiDaS loss [here](#midas-implementation). We provide 2 pretrained depth models for both DPT-hybrid and DPT-large architectures with input resolution 384.
 #### Download pretrained models
 ```bash
 sh ./tools/download_depth_models.sh

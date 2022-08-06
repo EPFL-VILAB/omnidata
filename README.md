@@ -19,7 +19,7 @@ Table of Contents
 - Data 
     - [download standardized portions of the dataset](#dataset)
     - [dataloaders for it](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch)
-- The Annotator
+- The Pipeline
     - [generating more multi-view data](#create-multi-view-data-from-3d-mesh)
 - [Source for the above](https://github.com/EPFL-VILAB/omnidata#source-code)
 - [Paper code](https://github.com/EPFL-VILAB/omnidata/tree/main/paper_dump) ([#MiDaS loss](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#midas-implementation))

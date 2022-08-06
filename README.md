@@ -4,7 +4,7 @@
 **A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets from 3D Scans (ICCV 2021)**
 
   
-[`Project Website`](https://omnidata.vision) &centerdot; [`Paper`](https://arxiv.org/abs/2110.04994) &centerdot; [**`>> [Github] <<`**](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) &centerdot; [`Starter Data`](//docs.omnidata.vision/starter_dataset.html) &centerdot;  [`Annotator`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_annotator#readme) &centerdot;  [`Docs`](//docs.omnidata.vision) &centerdot;
+[`Project Website`](https://omnidata.vision) &centerdot; [`Paper`](https://arxiv.org/abs/2110.04994) &centerdot; [**`>> [Github] <<`**](https://github.com/EPFL-VILAB/omnidata#readme) &centerdot; [`Data`](https://github.com/EPFL-VILAB/omnidata/omnidata_tools/dataset#readme) &centerdot; [`Pretrained Weights`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch#readme) &centerdot; [`Annotator`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_annotator#readme) &centerdot; 
 
 </div>
 
@@ -41,8 +41,11 @@ python demo.py --task depth --img_path $PATH_TO_IMAGE_OR_FOLDER --output_path $P
 | ![](./omnidata_tools/torch/assets/demo/test1_normal.png) | ![](./omnidata_tools/torch/assets/demo/test2_normal.png) |![](./omnidata_tools/torch/assets/demo/test3_normal.png) | ![](./omnidata_tools/torch/assets/demo/test4_normal.png) | ![](./omnidata_tools/torch/assets/demo/test5_normal.png) | ![](./omnidata_tools/torch/assets/demo/test7_normal.png) | ![](./omnidata_tools/torch/assets/demo/test9_normal.png) |
 | ![](./omnidata_tools/torch/assets/demo/test1_depth.png) | ![](./omnidata_tools/torch/assets/demo/test2_depth.png) | ![](./omnidata_tools/torch/assets/demo/test3_depth.png) | ![](./omnidata_tools/torch/assets/demo/test4_depth.png) | ![](./omnidata_tools/torch/assets/demo/test5_depth.png) | ![](./omnidata_tools/torch/assets/demo/test7_depth.png) | ![](./omnidata_tools/torch/assets/demo/test9_depth.png)
 
+---
+<br>
 
 ## Dataset
+You can download each component and modality individually or all at once with our download utility. [**MAIN DATA PAGE**](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/dataset#readme)
 ```bash
 conda install -c conda-forge aria2
 pip install 'omnidata-tools'
@@ -53,11 +56,28 @@ omnitools.download point_info rgb depth_euclidean mask_valid fragments \
     --dest ./omnidata_starter_dataset/ \
     --name YOUR_NAME --email YOUR_EMAIL --agree_all
 ```
-The tool can download different subsets. Documentation [here](https://docs.omnidata.vision/starter_dataset_download.html).
+
+We ran our annotation pipeline on several collections of 3D meshes. The result is a `24-million-viewpoint multiview dataset` comprising over `2000 scenes` with the following labels for each image:
+
+#### Per-Image Information
+|  |   |   |   |  |   |   |   | 
+| :-------------------:|:---------------------:|:---------------------:|:-----------------------:| :-------------------:|:---------------------:|:---------------------:|:-----------------------:|
+| RGB                    | Cam. Intrinsics          |  Cam. Pose                 |  Correspondences (Flow)      | Segm. <br> (Instances) |  Segm. <br> (Semantic)   |  Segm. <br> (2D Graphcut)  |  Segm. <br> (2.5D Graphcut)  | 
+| Distance (Euclidean)  |  Depth (Z-Buffer)     |  Surface Normals      |  Curvature   |   Edges (Texture)      |  Shading (reshading)  |   Keypoints (2D, SIFT) |  Keypoints (3D, NARF) |
+|  Masks (valid pixels) | Shading |   |  |   |   |   | 
+  
+`--components`: `Taskonomy`, `Hypersim`, `Replica`, `Google Scanned Objects in Replica`, `Habitat-Matterport3D`, `BlendedMVS`, `CLEVR`
 
 
+`More about the data:` [Standardized data subsets and download tool](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/dataset#readme)
 
-### create multi-view data from 3D mesh
+
+---
+
+<br> 
+
+## Annotate a new 3D mesh
+
 ```bash
 git clone https://github.com/Ainaz99/omnidata-annotator # Generation scripts
 docker pull ainaz99/omnidata-annotator:latest           # Includes Blender, Meshlab, other libs
@@ -68,6 +88,9 @@ docker run -ti --rm \
 cd /annotator
 ./run-demo.sh
 ```
+
+![](https://omnidata.vision/assets/main_page/dataset_design_1.jpg)
+
 Documentation and a tutorial [here](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator#readme).
 
 

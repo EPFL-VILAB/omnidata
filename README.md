@@ -13,14 +13,15 @@
 Table of Contents
 =================
 - Pretrained models
-    - [online demo](https://omnidata.vision/demo/)
+    - [online demo](https://omnidata.vision/demo/) (1 image per captcha)
     - [weights and pytorch demo](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#readme)
     - [training](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#training-state-of-the-art-models)
 - Data 
     - [dataset info](https://docs.omnidata.vision/starter_dataset.html)
-    - [download standardized portions of the dataset](#dataset)
-    - [dataloaders for it](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch)
+    - [download components of the dataset](#dataset)
+    - [dataloaders for all modalities, camera parameters, multiview](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch) (dataloaders respect tiny/medium/fullplus splits)
 - The Pipeline
+    - [online demo](https://omnidata.vision/designer/)
     - [generating more multi-view data](#create-multi-view-data-from-3d-mesh)
 - [Source for the above](https://github.com/EPFL-VILAB/omnidata#source-code)
 - [Paper code](https://github.com/EPFL-VILAB/omnidata/tree/main/paper_dump) ([#MiDaS loss](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#midas-implementation))

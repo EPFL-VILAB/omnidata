@@ -14,10 +14,10 @@ Table of Contents
 =================
 
 - [Pretrained models](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#readme)
-- [Dataset from paper](https://github.com/EPFL-VILAB/omnidata#dataset), [dataloaders for it](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch)
-- [Generating 2D data from 3D data](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator#quickstart-run-demo)
+- [Dataset from paper](#dataset), [dataloaders for it](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch)
+- [Generating 2D data from 3D data](#multi-view-data-from-3D-mesh)
 - [Source for the above](https://github.com/EPFL-VILAB/omnidata#source-code)
-- [Paper code](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch) ([#MiDaS loss](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#midas-implementation))
+- [Paper code](https://github.com/EPFL-VILAB/omnidata/tree/main/paper_dump) ([#MiDaS loss](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#midas-implementation))
 - [Citing](https://github.com/EPFL-VILAB/omnidata/blob/main/README.md#citing)
 
 ---
@@ -50,7 +50,7 @@ The tool can download different subsets. Documentation [here](https://docs.omnid
 
 
 
-## Generate new multi-view multi-model vision datasets from 3D data
+## Multi-view data from 3D mesh
 ```bash
 git clone https://github.com/Ainaz99/omnidata-annotator # Generation scripts
 docker pull ainaz99/omnidata-annotator:latest           # Includes Blender, Meshlab, other libs

@@ -17,14 +17,15 @@ Table of Contents
 - [Dataset](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch), [dataloaders](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch)
 - [Training code](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch) ([#MiDaS loss](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#midas-implementation))
 - [Generating 2D data from 3D data](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator#quickstart-run-demo)
-- Citing
+- [Citing](https://github.com/EPFL-VILAB/omnidata/blob/main/README.md#citing)
+
+---
 
 
-
-### Run our models on your own image
-After downloading the [pretrained models](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#pretrained-models), run the following with with `TASK=normal` or `TASK=depth`:
+### Pretrained models
+[download script and code](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#pretrained-models):
 ```bash
-python demo.py --task $TASK --img_path $PATH_TO_IMAGE_OR_FOLDER --output_path $PATH_TO_SAVE_OUTPUT
+python demo.py --task depth --img_path $PATH_TO_IMAGE_OR_FOLDER --output_path $PATH_TO_SAVE_OUTPUT    # or TASK=normal
 ```
 |  |   |   |   |  |  |  |
 | :-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
@@ -34,7 +35,7 @@ python demo.py --task $TASK --img_path $PATH_TO_IMAGE_OR_FOLDER --output_path $P
 
 
 ## Dataset
-Download subsets of the dataset from the paper with our downloader utility. Man docs available [here](https://docs.omnidata.vision/starter_dataset_download.html).
+How to download different subsets [here](https://docs.omnidata.vision/starter_dataset_download.html).
 ```bash
 conda install -c conda-forge aria2
 pip install 'omnidata-tools'

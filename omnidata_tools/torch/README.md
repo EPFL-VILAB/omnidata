@@ -57,7 +57,7 @@ sh ./tools/download_surface_normal_models.sh
 These will download the pretrained models for `depth` and `normals` to a folder called `./pretrained_models`.
 
 ## Run our models on your own image
-After downloading the [pretrained models](#pretrained-models), you can run them on your own image with the following command:
+After downloading the pretrained models [like above](#pretrained-models), you can run them on your own image with the following command:
 ```bash
 python demo.py --task $TASK --img_path $PATH_TO_IMAGE_OR_FOLDER --output_path $PATH_TO_SAVE_OUTPUT
 ```

@@ -21,7 +21,7 @@
 - [Dataset statistcs](#data-statistics)
     - [View effects of subsampling](https://omnidata.vision/designer/)
 - [Label descriptions](#modalities)
-- [Downloading](#download)
+- [Downloading](#downloading)
     - [Examples](#examples)
 - [Pretrained Normal + Depth Models](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch#readme) [[Upload your image](https://omnidata.vision/demo/)]
 

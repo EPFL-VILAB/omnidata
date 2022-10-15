@@ -123,7 +123,7 @@ cd paper_code           # Reference
   year={2021}
 }
 ```
-In case you use our latest pretrained models please also cite the following paper:
+In case you use our latest pretrained models please also cite the following paper for 3D data augmentations:
 ```
 @inproceedings{kar20223d,
   title={3D Common Corruptions and Data Augmentation},

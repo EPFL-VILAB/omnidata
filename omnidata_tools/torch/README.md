@@ -1,21 +1,19 @@
 <div align="center">
 
-# Omni ↦ Data (Steerable Datasets)
-**A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets from 3D Scans (ICCV 2021)**
 
-  
-[`Project Website`](https://omnidata.vision) &centerdot; [`Paper`](https://arxiv.org/abs/2110.04994) &centerdot; [`Docs`](//docs.omnidata.vision) &centerdot; [`Annotator`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_annotator) &centerdot; [`Starter Data`](//docs.omnidata.vision/starter_dataset.html) &centerdot;  [**`>> [Tools] <<`**](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) &centerdot; [`Paper Code`](https://github.com/Ainaz99/Omnidata)
+# Omnidata: _PyTorch Models and Dataloaders_
+[`Project Website`](https://omnidata.vision) &centerdot; [`Paper`](https://arxiv.org/abs/2110.04994) &centerdot; [`Github`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_tools/torch) &centerdot; [`Data`](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/dataset#readme) &centerdot; [**`>> [PyTorch Utils + Weights] <<`**](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#readme) &centerdot;  [`Annotator`](https://github.com/EPFL-VILAB/omnidata-tools/tree/main/omnidata_annotator#readme) 
+
+**Omnidata: A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets from 3D Scans (ICCV 2021)**
 
 </div>
 
+
 ---
 
-Omnidata Tools
-=================
-![](./assets/point_5.gif)
-The repository contains some tools and code from our paper:
-**Omnidata: A Scalable Pipeline for Making Multi-Task Mid-Level Vision Datasets from 3D Scans** (ICCV2021)
-It specifically contains utilities such as dataloader to efficiently load the generated data from the Omnidata annotator, pretrained models and code to train state-of-the-art models for tasks such as depth and surface normal estimation, including a first publicly available implementation for MiDaS training code. It also contains an implementation of the 3D image refocusing augmentation introduced in the paper.
+You can download our pretrained models for surface normal estimation and depth estimation. For each task there are two versions of the models--a V1 used in the paper, and a stronger V2 released in March 2022. 
+
+This repo also contains PyTorch dataloaders to load the starter dataset and other data generated from the Omnidata annotator, and code to train  monocular depth and surface normal estimation. It includes a first publicly available implementation for MiDaS training code. It also contains an implementation of the 3D image refocusing augmentation introduced in the paper.
 
 
 
@@ -44,11 +42,25 @@ pip install -r requirements.txt
 ```
 
 ## Pretrained Models
-We are providing our pretrained models which have state-of-the-art performance in depth and surface normal estimation.
-#### Network Architecture
-The surface normal network is based on the [UNet](https://arxiv.org/pdf/1505.04597.pdf) architecture (6 down/6 up). It is trained with both angular and L1 loss and input resolutions between 256 and 512.
+Here is an [online demo](https://omnidata.vision/demo/) where you can upload your own images (1 per CAPTCHA).
 
-The depth networks have DPT-based architectures (similar to [MiDaS v3.0](https://github.com/isl-org/MiDaS)) and are trained with scale- and shift-invariant loss and scale-invariant gradient matching term introduced in [MiDaS](https://arxiv.org/pdf/1907.01341v3.pdf), and also [virtual normal loss](https://openaccess.thecvf.com/content_ICCV_2019/papers/Yin_Enforcing_Geometric_Constraints_of_Virtual_Normal_for_Depth_Prediction_ICCV_2019_paper.pdf). You can see a public implementation of the MiDaS loss [here](#midas-implementation). We provide 2 pretrained depth models for both DPT-hybrid and DPT-large architectures with input resolution 384.
+
+### Network Architecture
+- **Version 2 models** _(stronger than V1)_ **[March 2022]**: <br> These are DPT architectures trained on more data using both [3D Data Augmentations](https://3dcommoncorruptions.epfl.ch/) and [Cross-Task Consistency](https://consistency.epfl.ch/). Here's the list of updates in Version 2 models:
+  - **Monocular Depth Estimation:**
+    - [Habitat-Matterport 3D Dataset (HM3D)](https://aihabitat.org/datasets/hm3d/) and 5 [MiDaS](https://github.com/isl-org/MiDaS) dataset components (RedWebDataset, HRWSIDataset, MegaDepthDataset, TartanAirDataset, BlendedMVS) are added to the training data.
+    - 1 week of training with 2D and [3D data augmentations](https://3dcommoncorruptions.epfl.ch/) and 1 week of training with [cross-task consistency](https://consistency.epfl.ch/) on 4xV100.
+  - **Monocular Surface Normal Estimation:**
+    - New model is based on DPT architecture.
+    - Habitat-Matterport 3D Dataset (HM3D) is added to the training data.
+    - 1 week of training with 2D and [3D data augmentations](https://3dcommoncorruptions.epfl.ch/) and 1 week of training with [cross-task consistency](https://consistency.epfl.ch/) on 4xV100.
+
+- Version 1 Models
+  - **Monocular Depth Estimation:**
+    - have DPT-based architectures (similar to [MiDaS v3.0](https://github.com/isl-org/MiDaS)) and are trained with scale- and shift-invariant loss and scale-invariant gradient matching term introduced in [MiDaS](https://arxiv.org/pdf/1907.01341v3.pdf), and also [virtual normal loss](https://openaccess.thecvf.com/content_ICCV_2019/papers/Yin_Enforcing_Geometric_Constraints_of_Virtual_Normal_for_Depth_Prediction_ICCV_2019_paper.pdf). We're making our implementation available [here](#midas-implementation), since there is currently no other public implementation. We provide 2 pretrained depth models for both DPT-hybrid and DPT-large architectures with input resolution 384.
+  - **Monocular Surface Normal Estimation:**
+    - The surface normal network is based on the [UNet](https://arxiv.org/pdf/1505.04597.pdf) architecture (6 down/6 up). It is trained with both angular and L1 loss and input resolutions between 256 and 512.
+
 #### Download pretrained models
 ```bash
 sh ./tools/download_depth_models.sh
@@ -57,7 +69,7 @@ sh ./tools/download_surface_normal_models.sh
 These will download the pretrained models for `depth` and `normals` to a folder called `./pretrained_models`.
 
 ## Run our models on your own image
-After downloading the [pretrained models](#pretrained-models), you can run them on your own image with the following command:
+After downloading the pretrained models [like above](#pretrained-models), you can run them on your own image with the following command:
 ```bash
 python demo.py --task $TASK --img_path $PATH_TO_IMAGE_OR_FOLDER --output_path $PATH_TO_SAVE_OUTPUT
 ```
@@ -118,5 +130,15 @@ If you find the code or models useful, please cite our paper:
   booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
   pages={10786--10796},
   year={2021}
+}
+```
+In case you use our latest pretrained models please also cite the following paper:
+```
+@inproceedings{kar20223d,
+  title={3D Common Corruptions and Data Augmentation},
+  author={Kar, O{\u{g}}uzhan Fatih and Yeo, Teresa and Atanov, Andrei and Zamir, Amir},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={18963--18974},
+  year={2022}
 }
 ```

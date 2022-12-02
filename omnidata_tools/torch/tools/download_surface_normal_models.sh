@@ -14,5 +14,6 @@ sudo apt install -y imagemagick
 pip install gdown
 mkdir -p pretrained_models 
 
-gdown https://drive.google.com/uc?id=1iJjV9rkdeLvsTU9x3Vx8vwZUg-sSQ9nm -O ./pretrained_models/ # omnidata normals (v1)
-gdown https://drive.google.com/uc?id=1wNxVO4vVbDEMEpnAi_jwQObf2MFodcBR -O ./pretrained_models/ # omnidata normals (v2)
+# https://drive.google.com/uc?id=1wNxVO4vVbDEMEpnAi_jwQObf2MFodcBR
+gdown '1iJjV9rkdeLvsTU9x3Vx8vwZUg-sSQ9nm&confirm=t' -O ./pretrained_models/ # omnidata normals (v1)
+gdown '1wNxVO4vVbDEMEpnAi_jwQObf2MFodcBR&confirm=t' -O ./pretrained_models/ # omnidata normals (v2)

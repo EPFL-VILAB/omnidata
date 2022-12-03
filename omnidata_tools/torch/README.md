@@ -22,7 +22,7 @@ Table of Contents
 
    * [Pretrained models for depth and surface normal estimation](#pretrained-models)
    * [Run pretrained models locally](#run-our-models-on-your-own-image)
-   * [Dataloaders](#single--and-multi-view-dataloaders)
+   * [Single- and multi-view (3D) Dataloaders](#single--and-multi-view-dataloaders)
    * [Code: our public implementation of MiDaS loss our training code](#midas-implementation)
    * [3D Image refocusing augmentation](#3d-image-refocusing)
    * [Train state-of-the-art models on Omnidata](#training-state-of-the-art-models)

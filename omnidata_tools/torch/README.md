@@ -20,10 +20,10 @@ This repo also contains PyTorch dataloaders to load the starter dataset and othe
 Table of Contents
 =================
 
-   * [Installation](#installation)
    * [Pretrained models for depth and surface normal estimation](#pretrained-models)
-   * [Run our pretrained models](#run-our-models-on-your-own-image)
-   * [MiDaS loss and training code implementation](#midas-implementation)
+   * [Run pretrained models locally](#run-our-models-on-your-own-image)
+   * [Dataloaders](#single--and-multi-view-dataloaders)
+   * [Code: our public implementation of MiDaS loss our training code](#midas-implementation)
    * [3D Image refocusing augmentation](#3d-image-refocusing)
    * [Train state-of-the-art models on Omnidata](#training-state-of-the-art-models)
      * [Depth Estimation](#depth-estimation)
@@ -31,15 +31,6 @@ Table of Contents
    * [Citing](#citation)
 
 
-
-## Installation
-You can see the complete list of required packages in [requirements.txt](https://github.com/Ainaz99/omnidata-tools/blob/main/requirements.txt). We recommend using virtualenv for the installation.
-
-```bash
-conda create -n testenv -y python=3.8
-source activate testenv
-pip install -r requirements.txt
-```
 
 ## Pretrained Models
 Here is an [online demo](https://omnidata.vision/demo/) where you can upload your own images (1 per CAPTCHA).
@@ -61,7 +52,18 @@ Here is an [online demo](https://omnidata.vision/demo/) where you can upload you
   - **Monocular Surface Normal Estimation:**
     - The surface normal network is based on the [UNet](https://arxiv.org/pdf/1505.04597.pdf) architecture (6 down/6 up). It is trained with both angular and L1 loss and input resolutions between 256 and 512.
 
+
+#### Packages
+You can see the complete list of required packages in [requirements.txt](https://github.com/Ainaz99/omnidata-tools/blob/main/requirements.txt). We recommend using conda or virtualenv for the installation.
+
+```bash
+conda create -n testenv -y python=3.8
+source activate testenv
+pip install -r requirements.txt
+```
+
 #### Download pretrained models
+
 ```bash
 sh ./tools/download_depth_models.sh
 sh ./tools/download_surface_normal_models.sh
@@ -84,8 +86,21 @@ python demo.py --task normal --img_path assets/demo/test1.png --output_path asse
 | ![](./assets/demo/test1_depth.png) | ![](./assets/demo/test2_depth.png) | ![](./assets/demo/test3_depth.png) | ![](./assets/demo/test4_depth.png) | ![](./assets/demo/test5_depth.png) | ![](./assets/demo/test7_depth.png) | ![](./assets/demo/test9_depth.png)
 
 
+## Single- and Multi-View Dataloaders
+We provide a set of modular PyTorch dataloaders in the `dataloaders` directory ([here](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch/dataloader)) that work for multiple components of the dataset or for any combination of modalities.
+- The [notebook here](https://github.com/EPFL-VILAB/omnidata/blob/main/omnidata_tools/torch/00_usage_dataloader.ipynb) shows how to use the dataloader, how to load multiple overlapping views, and how to unproject the images into the same scene.
+- New components datasets (e.g. those annotated with the [annotator](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_annotator)) can be added as a file in the `dataloader/component_datasets` and used with the dataloader. The current dataloaders work for Taskonomy, Replica, GSO-in-Replica, Hypersim, HM3D, and BlendedMVS++
+- See the [dataloader README](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch/dataloader) for more info on how to load multiple views, get the camera intrinsics and pose, and use with PyTorch3D or PyTorch-Lightning
+
+| |
+| :-------------:|
+| Notebook visualization of multiple views |
+| ![](https://user-images.githubusercontent.com/5157485/205193809-f5bb1759-d7b6-4157-8b60-fb595bbe57bf.png) |
+
+
+
 ## MiDaS Implementation
-We provide an implementation of the MiDaS Loss, specifically the `ssimae (scale- and shift invariant MAE) loss` and the `scale-invariant gradient matching term` in `losses/midas_loss.py`. MiDaS loss is useful for training depth estimation models on mixed datasets with different depth ranges and scales, similar to our dataset. An example usage is shown below:
+We provide a public implementation of the MiDaS loss that we used for training. The loss is not available in the original MiDaS repo, and we coudln't find one online. Both the `ssimae (scale- and shift invariant MAE) loss` and the `scale-invariant gradient matching term` are in `losses/midas_loss.py`. MiDaS loss is useful for training depth estimation models on mixed datasets with different depth ranges and scales, similar to our dataset. An example usage is shown below:
 ```bash
 from losses.midas_loss import MidasLoss
 midas_loss = MidasLoss(alpha=0.1)
@@ -96,6 +111,7 @@ midas_loss, ssi_mae_loss, reg_loss = midas_loss(depth_prediction, depth_gt, mask
 | :-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
 | ![](./assets/depth/240_rgb.png) | ![](./assets/depth/64_rgb.png) |![](./assets/depth/124_rgb.png) | ![](./assets/depth/106_rgb.png) | ![](./assets/depth/62_rgb.png) | ![](./assets/depth/184_rgb.png) | ![](./assets/depth/192_rgb.png) |
 | ![](./assets/depth/240_depth.png) | ![](./assets/depth/64_depth.png) |![](./assets/depth/124_depth.png) | ![](./assets/depth/106_depth.png) | ![](./assets/depth/62_depth.png) | ![](./assets/depth/184_depth.png) | ![](./assets/depth/192_depth.png) 
+
 ## 3D Image Refocusing
 Mid-level cues can be used for data augmentations in addition to training targets. The availability of full scene geometry in our dataset makes the possibility of doing Image Refocusing as a 3D data augmentation. You can find an implementation of this augmentation in `data/refocus_augmentation.py`. You can run this augmentation on some sample images from our dataset with the following command. 
 ```bash

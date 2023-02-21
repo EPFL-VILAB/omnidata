@@ -1,5 +1,5 @@
 OMNIDATA STARTER DATASET END USER LICENSE AGREEMENT
-Last revision: October 21, 2021
+Last revision: February 21, 2023
 
 You (“Researcher” or “You”) are granted the right to use the Omnidata Starter Dataset (Dataset) under the following terms, as enlisted in this document (“License Agreement”):
 
@@ -11,6 +11,7 @@ You (“Researcher” or “You”) are granted the right to use the Omnidata St
 6. A number of datasets are integrated in the Omnidata Starter Dataset for optional use including Taskonomy (Zamir et al 2018), Gibson (Xia et al 2018) and 2D3DS (Armeni et al 2017). The end user license agreement terms of those datasets are included in this License Agreement or appended to this License Agreement.
 7. You comply with the terms enforced by the corporates whose products were used in collecting the data. The terms unanimously enforce, including but not limited to, restricting the use of the data to non-commercial use.
 8. This License Agreement is for Omnidata Starter Dataset. Omnidata Annotator is a software stack licensed under the MIT License. The license agreements of Omnidata Annotator and Omnidata Starter Dataset are independent. 
+9. This License Agreement includes the pre-trained Omnidata model weights.
 
 Appended License Agreements:
 - Replica: https://raw.githubusercontent.com/facebookresearch/Replica-Dataset/main/LICENSE

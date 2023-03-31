@@ -1,3 +1,5 @@
+# Based on https://gist.github.com/dvdhfnr/732c26b61a0e63a0abc8a5d769dbebd0
+
 import torch
 import torch.nn as nn
 import numpy as np

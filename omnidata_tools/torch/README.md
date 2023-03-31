@@ -100,7 +100,7 @@ We provide a set of modular PyTorch dataloaders in the `dataloaders` directory (
 
 
 ## MiDaS Implementation
-We provide a public implementation of the MiDaS loss that we used for training. The loss is not available in the original MiDaS repo, and we coudln't find one online. Both the `ssimae (scale- and shift invariant MAE) loss` and the `scale-invariant gradient matching term` are in `losses/midas_loss.py`. MiDaS loss is useful for training depth estimation models on mixed datasets with different depth ranges and scales, similar to our dataset. An example usage is shown below:
+We provide a public implementation of the MiDaS loss that we used for training, based on [this implementation](https://gist.github.com/dvdhfnr/732c26b61a0e63a0abc8a5d769dbebd0). The loss is not available in the original MiDaS repo. Both the `ssimae (scale- and shift invariant MAE) loss` and the `scale-invariant gradient matching term` are in `losses/midas_loss.py`. MiDaS loss is useful for training depth estimation models on mixed datasets with different depth ranges and scales, similar to our dataset. An example usage is shown below:
 ```bash
 from losses.midas_loss import MidasLoss
 midas_loss = MidasLoss(alpha=0.1)

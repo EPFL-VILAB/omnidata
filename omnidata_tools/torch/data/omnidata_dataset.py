@@ -40,7 +40,7 @@ REPLICA_BUILDINGS = [
     'frl_apartment_1', 'office_3', 'frl_apartment_2', 'apartment_0', 'hotel_0', 'room_1']
 
 def filter_taskonomy():
-    data = pd.read_csv('/scratch/roman/Omnidata/loss_stats/taskonomy_sorted.csv', index_col=0)
+    data = pd.read_csv(os.path.join(os.path.dirname(__file__), 'dataset_stats', 'taskonomy_sorted.csv.gz'), index_col=0)
     thresholds = [10000, 50000, 100000]
     filtered_bpv = {}
     for thresh in thresholds:
@@ -54,7 +54,7 @@ def filter_taskonomy():
     return filtered_bpv
 
 def filter_blendedMVS():
-    data = pd.read_csv('/scratch/roman/Omnidata/loss_stats/blendedMVS_sorted.csv', index_col=0)
+    data = pd.read_csv(os.path.join(os.path.dirname(__file__), 'dataset_stats', 'blendedMVS_sorted.csv.gz'), index_col=0)
     thresholds = [1000, 10000, 20000]
     filtered_bpv = {}
     for thresh in thresholds:

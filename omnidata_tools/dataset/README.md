@@ -92,12 +92,12 @@ _Note: You can play around with what happens if you subsample based on these sta
 | **Surface normals** | `normal` |  Surface normals of the mesh relative to the camera. See dataloaders for transforming to world coordinates. | 3-channel 8-bit PNG |
 | **Instance Segmentation** | `semantic` |  Segmentation masks indicated instance id and semantic class, if available. | 3-channel 8-bit PNG |
 | **Semantic Segmentation** | `semantic` |  Segmentation masks indicated instance id and semantic class, if available. | 3-channel 8-bit PNG |
-| **2D Graphcut Segmentation** | `segm`  |  Segmentation masks indicated instance id and semantic class, if available. | 3-channel 8-bit PNG |
-| **2.5D Graphcut Segmentation** | `segm` |  Segmentation masks indicated instance id and semantic class, if available. | 3-channel 8-bit PNG |
+| **2D Graphcut Segmentation** | `segment_unsup2d`  |  Segmentation masks indicated instance id and semantic class, if available. | 3-channel 8-bit PNG |
+| **2.5D Graphcut Segmentation** | `segment_unsup25d` |  Segmentation masks indicated instance id and semantic class, if available. | 3-channel 8-bit PNG |
 | **Edges (2D texture)** | `edge_texture`   |  Output of SciPy Canny edge detector on meshes, without nonmax suppression. | 1-channel 8-bit PNG |
 | **Edges (3D occlusion)** | `edge_occlusion` |  Gaussian-blurred derivative of depth images. | 1-channel 8-bit PNG |
-| **Keypoints (2D, SIFT)** | `segment_unsup2d` |  Keypoint heatmaps generated from SIFT. | 1-channel 8-bit PNG |
-| **Keypoints (3D, SIFT)** | `segment_unsup25d` |  Keypoint heatmaps generated from NARF. | 1-channel 8-bit PNG |
+| **Keypoints (2D, SIFT)** | `keypoint_unsup2d` |  Keypoint heatmaps generated from SIFT. | 1-channel 8-bit PNG |
+| **Keypoints (3D, SIFT)** | `keypoint_unsup25d` |  Keypoint heatmaps generated from NARF. | 1-channel 8-bit PNG |
 | **Principal Curvature** | `principal_curvature` |  Radius of curvature of mesh along major and minor axes, estimated using Meshlab. Principal curvatures are encoded in the first two channels. Zero curvature is encoded as the pixel value 127 | 3-channel 8-bit PNG |
 | Reshading | `reshading` | Rendered image of mesh with point light source in Blender. A function of distance and relative normals, it can be used to estimate the shading portion of intrinsic image decomposition. | 1-channel 8-bit PNG |
 | **Masks (valid pixels)** | `mask_valid` | A value of 0 indicates missing geometry at this pixel, 255 indicates non-infinite depth. | 1-channel 8-bit PNG |

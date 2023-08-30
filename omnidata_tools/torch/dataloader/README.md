@@ -43,7 +43,7 @@ The CENTER_VISIBLE sampler requires downloading the scene-level metadata that de
 ```bash
 # Place the untarred directories in the same directory as the main omnidata dataset. 
 # pip install gdown
-# gdown '1bvdgtHtKHEtSwYpYlNz2bIxilvinfC54&confirm=t'
+# gdown '1wK-GuCvQzRWSkV6-rp25uB8-20mOcrbV&confirm=t'
 # gdown '1avTBx5JbKj9GiGk9rWsufGppo1DxqQ-l&confirm=t'
 # tar -xf scene_metadata_hs_r_gso_t.tar
 # tar -xf scene_multiview_metadata_hs_r_gso_t.tar

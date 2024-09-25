@@ -8,6 +8,29 @@
 
 </div>
 
+
+### Pretrained models
+[![Surface Normal](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face%20Spaces-Monocular_Surface_Normal_\(DPT_hybrid_384\)-green)](https://huggingface.co/spaces/sashasax/omnidata_monocular_surface_normal_dpt_hybrid_384)
+[![Monocular Depth](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face%20Spaces-Monocular_Depth_\(DPT_hybrid_384\)-blue)](https://huggingface.co/spaces/sashasax/omnidata_monocular_depth_dpt_hybrid_384)
+
+We provide huggingface demos for [monocular surface normal estimation](https://huggingface.co/spaces/sashasax/omnidata_monocular_surface_normal_dpt_hybrid_384) and depth estimation. You can load/run the models 
+
+```
+import torch
+# you may need to install timm for the DPT (we use 0.4.12)
+
+# Surface normal estimation model
+model_normal = torch.hub.load('alexsax/omnidata_models', 'surface_normal_dpt_hybrid_384')
+
+# Depth estimation model
+model_depth = torch.hub.load('alexsax/omnidata_models', 'depth_dpt_hybrid_384')
+
+# Without pre-trained weights
+model_custom = torch.hub.load('alexsax/omnidata_models', 'dpt_hybrid_384', pretrained=False, task='normal')
+```
+
+Previously, installing + using the models was more difficult. Using `torch.hub.load` is now the recommended way to use the models locally.
+
 ---
 
 Table of Contents
@@ -29,25 +52,6 @@ Table of Contents
 
 ---
 
-
-### Pretrained models
-[![Monocular Surface Normal Estimation](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face%20Spaces-Monocular_Surface_Normal_dpt_hybrid_384-blue)](https://huggingface.co/spaces/sashasax/omnidata_monocular_surface_normal_dpt_hybrid_384)
-
-We provide huggingface demos for [monocular surface normal estimation](https://huggingface.co/spaces/sashasax/omnidata_monocular_surface_normal_dpt_hybrid_384) and depth estimation. You can load/run the models 
-
-```
-import torch
-# you may need to install timm for the DPT (we use 0.4.12)
-
-# Surface normal estimation model
-model_normal = torch.hub.load('alexsax/omnidata_models', 'surface_normal_dpt_hybrid_384')
-
-# Depth estimation model
-model_depth = torch.hub.load('alexsax/omnidata_models', 'depth_dpt_hybrid_384')
-
-# Without pre-trained weights
-model_custom = torch.hub.load('alexsax/omnidata_models', 'dpt_hybrid_384', pretrained=False, task='normal')
-```
 
 Demo code, training losses, etc are available here: [weights and code](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#pretrained-models):
 

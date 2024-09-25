@@ -20,7 +20,7 @@ This repo also contains PyTorch dataloaders to load the starter dataset and othe
 Table of Contents
 =================
 
-   * [Pretrained models for depth and surface normal estimation](#pretrained-models)
+   * [Pretrained models for depth and surface normal estimation](#pretrained-models-new-2024-easy-loading-w-torchhub--hf)
    * [Run pretrained models locally](#run-our-models-on-your-own-image)
    * [Dataloaders: Single- and multi-view (3D) dataloaders](#single--and-multi-view-dataloaders)
    * [Training: our public implementation of MiDaS loss our training code](#midas-implementation)
@@ -32,8 +32,29 @@ Table of Contents
 
 
 
-## Pretrained Models
-Here is an [online demo](https://omnidata.vision/demo/) where you can upload your own images (1 per CAPTCHA).
+## Pretrained models [new 2024: easy loading w/ torch.hub + HF]
+[![Monocular Surface Normal Estimation](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face%20Spaces-Monocular_Surface_Normal_dpt_hybrid_384-blue)](https://huggingface.co/spaces/sashasax/omnidata_monocular_surface_normal_dpt_hybrid_384)
+
+We provide huggingface demos for [monocular surface normal estimation](https://huggingface.co/spaces/sashasax/omnidata_monocular_surface_normal_dpt_hybrid_384) and depth estimation.
+
+
+You can load/run the models with the following code. The only dependencies are torch + timm:
+```
+import torch
+# you may need to install timm for the DPT (we use 0.4.12)
+
+# Surface normal estimation model: expects input images 384x384 normalized [0,1]
+model_normal = torch.hub.load('alexsax/omnidata_models', 'surface_normal_dpt_hybrid_384')
+
+# Depth estimation model: expects input images 384x384 normalized [-1,1]
+model_depth = torch.hub.load('alexsax/omnidata_models', 'depth_dpt_hybrid_384')
+
+# Without pre-trained weights
+model_custom = torch.hub.load('alexsax/omnidata_models', 'dpt_hybrid_384', pretrained=False, task='normal')
+```
+
+### If you only want to run the models/demo
+Then use this [lite package](https://github.com/alexsax/omnidata_models/tree/main) -- it contains only the model definition and demos for running the model. It is much smaller than this repo, which also contains utilities for generating and loading data. 
 
 
 ### Network Architecture
@@ -61,14 +82,6 @@ conda create -n testenv -y python=3.8
 source activate testenv
 pip install -r requirements.txt
 ```
-
-#### Download pretrained models
-
-```bash
-sh ./tools/download_depth_models.sh
-sh ./tools/download_surface_normal_models.sh
-```
-These will download the pretrained models for `depth` and `normals` to a folder called `./pretrained_models`.
 
 ## Run our models on your own image
 After downloading the pretrained models [like above](#pretrained-models), you can run them on your own image with the following command:

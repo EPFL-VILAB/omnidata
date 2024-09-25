@@ -31,7 +31,27 @@ Table of Contents
 
 
 ### Pretrained models
-Here is an [online demo](https://omnidata.vision/demo/) where you can upload your own images (1 per CAPTCHA). You can [download weights and code](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#pretrained-models):
+[![Monocular Surface Normal Estimation](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face%20Spaces-Monocular_Surface_Normal_dpt_hybrid_384-blue)](https://huggingface.co/spaces/sashasax/omnidata_monocular_surface_normal_dpt_hybrid_384)
+
+We provide huggingface demos for [monocular surface normal estimation](https://huggingface.co/spaces/sashasax/omnidata_monocular_surface_normal_dpt_hybrid_384) and depth estimation. You can load/run the models 
+
+```
+import torch
+# you may need to install timm for the DPT (we use 0.4.12)
+
+# Surface normal estimation model
+model_normal = torch.hub.load('alexsax/omnidata_models', 'surface_normal_dpt_hybrid_384')
+
+# Depth estimation model
+model_depth = torch.hub.load('alexsax/omnidata_models', 'depth_dpt_hybrid_384')
+
+# Without pre-trained weights
+model_custom = torch.hub.load('alexsax/omnidata_models', 'dpt_hybrid_384', pretrained=False, task='normal')
+```
+
+Demo code, training losses, etc are available here: [weights and code](https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/torch#pretrained-models):
+
+
 ```bash
 python demo.py --task depth --img_path $PATH_TO_IMAGE_OR_FOLDER --output_path $PATH_TO_SAVE_OUTPUT    # or TASK=normal
 ```

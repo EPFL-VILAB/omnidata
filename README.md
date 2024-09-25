@@ -13,7 +13,7 @@
 [![Surface Normal](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face%20Spaces-Monocular_Surface_Normal_\(DPT_hybrid_384\)-green)](https://huggingface.co/spaces/sashasax/omnidata_monocular_surface_normal_dpt_hybrid_384)
 [![Monocular Depth](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face%20Spaces-Monocular_Depth_\(DPT_hybrid_384\)-blue)](https://huggingface.co/spaces/sashasax/omnidata_monocular_depth_dpt_hybrid_384)
 
-We provide huggingface demos for [monocular surface normal estimation](https://huggingface.co/spaces/sashasax/omnidata_monocular_surface_normal_dpt_hybrid_384) and depth estimation. You can load/run the models 
+We provide huggingface demos for [monocular surface normal estimation](https://huggingface.co/spaces/sashasax/omnidata_monocular_surface_normal_dpt_hybrid_384) and [depth estimation](https://huggingface.co/spaces/sashasax/omnidata_monocular_depth_dpt_hybrid_384). You can load/run the models 
 
 ```
 import torch
